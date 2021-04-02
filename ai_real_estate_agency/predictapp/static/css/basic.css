@@ -1,0 +1,151 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+/*기본 초기화*/
+* {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+body {
+    font-family: 'Noto Sans KR', 'PT Sans', 'sans-serif', '맑은 고딕';
+    color: #333;
+    background: rgb(238, 238, 238);
+}
+
+
+/* common */
+.containerBg {
+    position:fixed;
+    width:100%;
+    height:500px;
+    left:0;
+    top:0;
+    border-radius: 0 100px 0px 100px;
+    background:#F79318;
+}
+
+.container{
+    position: relative;
+    width:90%;
+    margin:auto;
+    height:800px;
+    background:#fdfdfd;
+    border-radius: 20px;
+    margin-top:50px;
+}
+
+.fontcolor {
+    color: #F79318;
+    font-size: 40px;
+    padding: 0 2px;
+}
+
+/* 메뉴 */
+.headerWrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-right: 1px solid #ebebeb;
+    width: 200px;
+    color: rgb(39, 38, 38);
+    margin: auto;
+    font-size: 14px;
+}
+
+.logo {
+   width:150px;
+   margin:auto;
+   text-align: center;
+   height:70px;
+   background:url('/static/images/logo2.png') 50% 80% no-repeat;
+}
+
+.logo a{
+    font-family: 'PT Sans';
+    font-size: 23px;
+    line-height: 100px;
+}
+
+
+.liImg {
+    display: inline-block;
+    width:20px;
+    height:20px;
+    margin-right:20px;
+}
+
+.liImg>img{
+    width:100%;
+}
+
+.hdMenu li:nth-child(2) .liImg img{
+    width:30px;
+}
+
+.hdMenu {
+    width:100%;
+    position: absolute;
+    top:40%;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+.hdMenu li,
+.hdAccount  li{
+    text-align: left;
+    padding-left: 30px;
+    margin-bottom: 20px;
+    transition: .3s;
+    opacity: .4;
+}
+
+.hdAccount li {
+    margin-bottom:10px;
+}
+
+.hdAccount {
+    width:100%;
+    position: absolute;
+    bottom:10px;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+.hdMenu li:hover ,
+.hdAccount li:hover {
+    opacity: 1;
+}
+
+.hdMenu li:nth-child(3) {
+    opacity: 1;
+    color: #F79318;
+}
+
+
+/* 본문 */
+.contents {
+    width:85%;
+    float:right;
+}
+
+.search {
+    margin-top:30px;
+}
