@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import pickle
 
 # 데이터 전처리하기
+# 원본 파일이 100mb 가 넘어서 해당 데이터는 로컬에서 처리해야됨.
 data = pd.read_csv('/Users/jk/study/java/java_academic/파이널프로젝트/파이널2/데이터/dacon/train.csv')
 data = data[
     ['apartment_id', 'city', 'dong', 'exclusive_use_area', 'year_of_completion', 'transaction_year_month', 'transaction_date',
@@ -63,8 +64,7 @@ for m in data['dong']:
 data['gu'] = gu
 data = data.drop(['dong'], axis=1)
 print(data.info())
-data.to_csv("train_ver1.csv", header=True, index=False)
+data.to_csv("https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/pretreatment/dataset/train_ver1.csv", header=True, index=False)
 
-df = pd.read_csv("train_ver1.csv")
-print(df.info())
+
 
