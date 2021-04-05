@@ -21,7 +21,7 @@ from sqlalchemy import create_engine
 pymysql.install_as_MySQLdb()
 
 # 데이터 로드
-dataset = pd.read_csv('/Users/jk/git/acornTeam1_project2/preprocessing/dataset/dataset.csv')
+dataset = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/dataset.csv')
 
 try:
     engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:3306/estate", encoding='utf-8')
