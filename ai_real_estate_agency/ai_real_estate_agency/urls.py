@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.MainFunc),
     path('predict/', include('predictapp.urls')),
+    path('dbSet', views.DbLoadFunc),
+    path('info', views.InfoFunc),
 ]
