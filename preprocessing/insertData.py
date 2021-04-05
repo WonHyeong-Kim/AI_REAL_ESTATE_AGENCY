@@ -1,26 +1,10 @@
 # 데이터 삽입하기
 '''
 데이터 삽입방법
-1. db 삭제후 테이블 재설정
-
+1. db 삭제후 db 재생성
 drop database estate;
 create database estate;
 use estate;
-CREATE TABLE train
-(
-    `apartment_id`               INT      NULL        COMMENT 'apartment_id',
-    `gu`                         INT      NULL        COMMENT 'gu',
-    `exclusive_use_area`         FLOAT    NULL        COMMENT 'exclusive_use_area',
-    `year_of_completion`         INT      NULL        COMMENT 'year_of_completion',
-    `transaction_year_month`     INT      NULL        COMMENT 'transaction_year_month',
-    `transaction_date`           INT      NULL        COMMENT 'transaction_date',
-    `floor`                      INT      NULL        COMMENT 'floor',
-    `park_area_sum`              FLOAT    NULL        COMMENT 'park_area_sum',
-    `day_care_babyTeacher_rate`  FLOAT    NULL        COMMENT 'day_care_babyTeacher_rate',
-    `transaction_real_price`     INT      NULL        COMMENT 'transaction_real_price'
-);
-ALTER TABLE train COMMENT 'train';
-
 
 2.모듈이 설치가 안되신분만 (pymysql, sqlalchemy)
 pip install pymysql
