@@ -64,7 +64,7 @@ for m in data['dong']:
 data['gu'] = gu
 data = data.drop(['dong'], axis=1)
 print(data.info())
-data.to_csv("https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/pretreatment/dataset/train_ver1.csv", header=True, index=False)
+data.to_csv("train_ver1.csv", header=True, index=False)
 
 
 
