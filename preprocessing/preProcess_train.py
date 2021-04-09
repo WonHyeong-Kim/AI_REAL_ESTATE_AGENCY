@@ -61,9 +61,9 @@ with open('gu_num_dict.bin', 'wb') as f:
 for m in data['dong']:
     gu.append(gu_dict_num[gu_dict[m]])
 # print(gu)
-data['gu'] = gu
+data['gu'] = gu  
 data = data.drop(['dong'], axis=1)
-print(data.info())
+print(data.info())  
 data.to_csv("https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/pretreatment/dataset/train_ver1.csv", header=True, index=False)
 
 
