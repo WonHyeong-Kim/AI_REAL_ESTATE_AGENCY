@@ -1,7 +1,7 @@
 import pandas as pd
 
 # 데이터 로드
-train_data = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/train_park.csv')
+train_data = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/dataset.csv')
 cctv = pd.read_csv("https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/cctv_origin.csv", encoding="EUC-KR")
 
 ## 데이터 전처리

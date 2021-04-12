@@ -50,6 +50,20 @@
 			<span class='column'>층 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{floor}}층
 		</div>
 		<hr>
+
+		<table style="width: 70%" class="table">
+			<tr>
+  				<th>거래연월</th><th>거래일</th><th>거래 가격</th><th>지역구 평균금액</th>
+  			</tr>
+			{% for data in dataset %}
+			<tr>
+				<td>{{ data.transaction_year_month }}</td>
+				<td>{{ data.transaction_date }}</td>
+				<td>{{ data.transaction_real_price }}</td>
+				<td>{{ data.gu }}</td>
+			</tr>
+			{% endfor %}
+		</table>
 	</div>
 </div>
 </body>

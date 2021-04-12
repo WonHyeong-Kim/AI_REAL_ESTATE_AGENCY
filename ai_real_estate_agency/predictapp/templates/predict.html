@@ -77,22 +77,22 @@
 		//for(i=0; i<data.length; i++){
 		data.forEach(function(address, i){
 			for(key in data[i]){
-				if(key == 'addr_kr'){
+				if(key === 'addr_kr'){
 					address[0] = data[i][key];
 					//console.log(data[i][key]);
 					
 				}
-				if(key == 'apt'){
+				if(key === 'apt'){
 					address[1] = data[i][key]
 					console.log(data[i][key]);
 				}
-				if(key == 'apartment_id'){
+				if(key === 'apartment_id'){
 					address[2] = data[i][key]
 					//apartment_id = data[i][key]
 					//console.log(data[i][key]);
 				}
+
 			}
-			
 			// 주소로 좌표를 검색합니다
 			geocoder.addressSearch(address[0], function(result, status) {
 			    // 정상적으로 검색이 완료됐으면 
@@ -146,8 +146,9 @@
 			        	//console.log('info?apartment_id='+apartment_id);
 			            // 마커 위에 인포윈도우를 표시합니다
 			            //infowindow.open(map, marker);
-			        	window.location.href = 'info?apartment_id='+address[2]; 
+			        	window.location.href = 'info?apartment_id='+address[2];
 			        });
+
 			    }
 			});
 		});
