@@ -26,95 +26,30 @@
 <div class="containerBg"></div>
 <!-- 전체 -->
 <div class="container">
-	<!-- 왼쪽 메뉴 -->
-	<div class="headerWrap bd">
-		<header>
-			<h1 class="logo">
-				 <a href="/index.html"><span class="fontcolor">AI</span> 복덕방</a>
-			</h1>
-
-			<ul class="hdMenu">
-				<li>
-					<!-- home 메뉴-->
-					<a href="javascript:void(0)">
-					<span class="liImg">
-						<img src="/static/images/icon-home.png" alt="home icon">
-					</span>
-					HOME
-					</a>
-				</li>
-				<li>
-					<!-- 서비스 소개 메뉴 -->
-					<a href="javascript:void(0)">					
-					<span class="liImg">
-						<img src="/static/images/icon-introduction.png" alt="introduction icon">
-					</span>
-					서비스 소개
-					</a>
-				</li>
-				<li>
-					<!-- 실거래가 예측 -->
-					<a href="javascript:void(0)">
-					<span class="liImg">
-						<img src="/static/images/icon-chart.png" alt="chart icon">
-					</span>
-					실거래가 예측
-					</a>
-				</li>
-				<li>
-					<!-- 사용방법 -->
-					<a href="dbSet">
-					<span class="liImg">
-					<img src="/static/images/icon-question.png" alt="information icon">
-					</span>
-					사용방법
-					</a>
-				</li>
-			</ul>
-			
-			<!-- 계정 메뉴 -->
-			<div class="accountWrap">
-				<ul class="hdAccount">
-					<li>
-						<!-- 마이페이지 -->
-						<a href="javascript:void(0)">
-						<span class="liImg">
-							<img src="/static/images/icon-account.png" alt="account icon">
-						</span>
-						마이페이지
-						</a>
-					</li>
-					<li>
-						<!-- 로그인 -->
-						<a href="javascript:void(0)">
-							<span class="liImg">
-								<img src="/static/images/icon-login.png" alt="login icon">
-							</span>
-							로그인
-						</a>
-					</li>
-				</ul>
-			</div>
-		</header>
-	</div>
-	
+	{% block header %}
+		{% include "left.html"%}
+	{% endblock %}
 	<!-- 본문 -->
 	<div class="contents">
 		<!-- 검색창 -->
-		<div class="search">
-			<h1>상세 정보</h1>
+		<div class="aptName">
+			{{apt}}
 		</div>
 		
-		<!-- 상세정보 -->
-		<div>
-			{{city}}<br>
-			{{apt}}<br>
-			{{addr_kr}}<br>
-			전용면적 : {{area}}m<sup>2</sup>({{area_pyeong}}평)<br>
-			설립일자 : {{transaction_year_month}}.<br>
-			{{floor}}층<br>
-	   	</div>
-	</div>
+		<div class='cityName'>
+			{{city}}  {{addr_kr}}
+		</div>
+		<hr>
+		<div class='area'>
+			<span class='column'>전용면적</span> : {{area}}m<sup>2</sup>({{area_pyeong}}평)
+		</div>
+		<div class='buildDate'>
+			<span class='column'>설립일자</span> : {{transaction_year_month}}.
+		</div>
+		<div class='floor'>
+			<span class='column'>층 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{floor}}층
+		</div>
+		<hr>
 	</div>
 </div>
 </body>

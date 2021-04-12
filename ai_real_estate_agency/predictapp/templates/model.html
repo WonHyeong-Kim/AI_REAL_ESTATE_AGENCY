@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<!-- cross browsing 방지 -->
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<style>
+	</style>
+	
+	<!-- font -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<!-- java script -->
+	<script src='/static/js/jquery-1.12.4.min.js'></script>
+	<script src='/static/js/main.js'></script>
+	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+</head>
+<body>
+<!-- 디자인용 -->
+<div class="containerBg"></div>
+<!-- 전체 -->
+<div class="container">
+	{% block header %}
+		{% include "left.html"%}
+	{% endblock %}
+	
+	<!-- 본문 -->
+	<div class="contents">
+		<!-- 검색창 -->
+		<div class="search">
+			<h1>모델 분석 정보</h1>
+		</div>
+		
+		<!-- 상세정보 -->
+		<table>
+			<tr>
+				<td>변수명</td><td>내용</td><td>변수형태</td>
+			</tr>
+			<tr>
+				<td>apartment_id</td><td>아파트 아이디</td><td>범주형</td>
+			</tr>
+			<tr>
+				<td>gu</td><td>구</td><td>범주형</td>
+			</tr>
+			<tr>
+				<td>exclusive_use_area</td><td>전용면적</td><td>수치형</td>
+			</tr>
+			<tr>
+				<td>year_of_completion</td><td>설립일자</td><td>범주형</td>
+			</tr>
+			<tr>
+				<td>transaction_year_month</td><td>거래년월</td><td>범주형</td>
+			</tr>
+			
+			<tr>
+				<td>transaction_date</td><td>거래날짜</td><td>범주형</td>
+			</tr>
+			<tr>
+				<td>floor</td><td>층</td><td>범주형</td>
+			</tr>
+			<tr>
+				<td>park_area_sum</td><td>공원 면적</td><td>수치형</td>
+			</tr>
+			<tr>
+				<td>day_care_babyTeacher_rate</td><td>보육 교사 수</td><td>수치형</td>
+			</tr>
+			<tr>
+				<td>transaction_real_price</td><td>집 값</td><td>수치형</td>
+			</tr>
+		</table>
+		<h3>exclusive_use_area 상관계수</h3>
+		<div>
+			<img src='/static/model/model1.png' alt ='model1'>
+		</div>
+		
+		<div>
+			<img src='/static/model/model2.png' alt ='model2'>
+	   	</div>
+	   	
+	   	<div>
+			<img src='/static/model/model3.png' alt ='model3'>
+	   	</div>
+	   	<div>
+			<img src='/static/model/model4.png' alt ='model4'>
+	   	</div>
+	   	<div>
+			<img src='/static/model/model5.png' alt ='model5'>
+	   	</div>
+	   	<div>
+	-------------실습 1- DecisionTreeRegressor------------<br>
+	결정계수(R2,설명력) :  0.7320665340205426<br>
+	-------------실습 2- RandomForestRegressor------------<br>
+	결정계수(R2,설명력) :  0.9148230003724018<br>
+	-------------- 학습 검정 자료로 분리 ---------------<br>
+	train 설명력 :  0.9101806653534238<br>
+	train 설명력 :  0.8790027615733326<br>
+	예상 집값 :  [20431.91671443 12908.9935312  10760.21510714]<br>
+	   	</div>
+	</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<!-- cross browsing 방지 -->
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<style>
+		.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+	</style>
+	
+	<!-- font -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<!-- java script -->
+	<script src='/static/js/jquery-1.12.4.min.js'></script>
+	<script src='/static/js/main.js'></script>
+	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+	<script>
+		
+	</script>
+</head>
+<body>
+	<!-- 왼쪽 메뉴 -->
+	<div class="headerWrap bd">
+		<header>
+			<h1 class="logo">
+				 <a href="/."><span class="fontcolor">AI</span> 복덕방</a>
+			</h1>
+
+			<ul class="hdMenu">
+				<li>
+					<!-- home 메뉴-->
+					<a href="/.">
+					<span class="liImg">
+						<img src="/static/images/icon-home.png" alt="home icon">
+					</span>
+					HOME
+					</a>
+				</li>
+				<li>
+					<!-- 모델 상세설명 메뉴 -->
+					<a href="model">					
+					<span class="liImg">
+						<img src="/static/images/icon-introduction.png" alt="introduction icon">
+					</span>
+					모델 상세설명
+					</a>
+				</li>
+				<li>
+					<!-- 실거래가 예측 -->
+					<a href="predict">
+					<span class="liImg">
+						<img src="/static/images/icon-chart.png" alt="chart icon">
+					</span>
+					실거래가 예측
+					</a>
+				</li>
+				<li>
+					<!-- 사용방법 -->
+					<a href="javascript:void(0)">
+					<span class="liImg">
+					<img src="/static/images/icon-question.png" alt="information icon">
+					</span>
+					사용방법
+					</a>
+				</li>
+			</ul>
+			
+			<!-- 계정 메뉴 -->
+			<div class="accountWrap">
+				<ul class="hdAccount">
+					<li>
+						<!-- 마이페이지 -->
+						<a href="javascript:void(0)">
+						<span class="liImg">
+							<img src="/static/images/icon-account.png" alt="account icon">
+						</span>
+						마이페이지
+						</a>
+					</li>
+					<li>
+						<!-- 로그인 -->
+						<a href="javascript:void(0)">
+							<span class="liImg">
+								<img src="/static/images/icon-login.png" alt="login icon">
+							</span>
+							로그인
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+	</div>
+</body>
+</html>

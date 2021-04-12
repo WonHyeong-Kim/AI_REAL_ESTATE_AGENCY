@@ -43,7 +43,7 @@ body {
 
 .container{
     position: relative;
-    width:90%;
+    width:1080px;
     margin:auto;
     height:800px;
     background:#fdfdfd;
@@ -134,7 +134,7 @@ body {
     opacity: 1;
 }
 
-.hdMenu li:nth-child(3) {
+.hdMenu li.active {
     opacity: 1;
     color: #F79318;
 }
@@ -142,10 +142,39 @@ body {
 
 /* 본문 */
 .contents {
-    width:85%;
+    width:860px;
     float:right;
 }
 
 .search {
     margin-top:30px;
+}
+/* 상세 페이지*/
+.aptName{
+	font-size: 30px;
+	font-weight: bold;
+	margin:30px 30px 10px 20px;
+}
+
+.cityName{
+	font-size: 15px;
+	margin:0 30px 10px 20px;
+}
+
+.area{
+	font-size: 15px;
+	margin:0 30px 10px 20px;
+}
+
+.buildDate{
+	font-size: 15px;
+	margin:0 30px 10px 20px;
+}
+
+.floor{
+	font-size: 15px;
+	margin:0 30px 10px 20px;
+}
+.column{
+	color: #F79318;
 }

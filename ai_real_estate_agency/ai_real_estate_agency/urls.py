@@ -21,7 +21,10 @@ from predictapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.MainFunc),
-    path('predict/', include('predictapp.urls')),
-    path('dbSet', views.DbLoadFunc),
+    #path('predict/', include('predictapp.urls')),
+    path('predict', views.PredictFunc),
     path('info', views.InfoFunc),
+    path('model', views.ModelFunc),
 ]
+# cd C:\work\psou\ai_real_estate_agency
+# python manage.py createsuperuser
