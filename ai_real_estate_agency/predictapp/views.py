@@ -122,7 +122,7 @@ def InfoFunc(request):
         floor = int(df['floor'].values)
         transaction_year_month = transaction_year_month/100
         '''
-    return render(request, 'info.html', {'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
+    return render(request, 'info.html', {'dataset': dataset, 'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
 
 def ModelFunc(request):
     '''
