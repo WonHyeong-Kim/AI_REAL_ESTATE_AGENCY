@@ -22,7 +22,7 @@ for idx, data in train_data.iterrows():
     # 방문하지 않았으면 chk[gu] = True
     if chk[gu]:
         gu_area[gu] = data['park_area_sum']
-        gu_cctv[gu] = int(data['number of cctv'])
+        gu_cctv[gu] = int(data['cctv_num'])
         gu_daycare[gu] = data['day_care_babyTeacher_rate']
         chk[gu] = False
 

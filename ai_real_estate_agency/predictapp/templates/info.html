@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>AI 복덕방</title>
+	<title>AI 복덕방 - 상세정보</title>
 	
 	<!-- cross browsing 방지 -->
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
@@ -44,27 +44,54 @@
 			<span class='column'>전용면적</span> : {{area}}m<sup>2</sup>({{area_pyeong}}평)
 		</div>
 		<div class='buildDate'>
-			<span class='column'>설립일자</span> : {{transaction_year_month}}.
+			<span class='column'>완공연도</span> : {{year_of_completion}}년
 		</div>
 		<div class='floor'>
-			<span class='column'>층 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{floor}}층
+			<span class='column'>층&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</span> : {{floor}}층
 		</div>
 		<hr>
 
-		<table border="1" class="table">
-			<tr>
-  				<th>거래연월</th><th>전용면적</th><th>층</th><th>거래 가격(만원)</th><th>지역구 평균금액</th>
-  			</tr>
-			{% for data in dataset %}
-			<tr>
-				<td>{{ data.transaction_year_month }}</td>
-				<td>{{ data.exclusive_use_area }} m<sup>2</sup></td>
-				<td>{{ data.floor }}층</td>
-				<td>{{ data.transaction_real_price }}</td>
-				<td>{{ gu_mean_price }}</td>
-			</tr>
-			{% endfor %}
-		</table>
+		<div class='floor'>
+			<span class='column'> 공원면적(구 기준) </span> : {{parksum}}m<sup>2</sup>
+		</div>
+		<div class='floor'>
+			<span class='column'> 교사 1인당 담당 유치원생 비율(구 기준)</span>: {{bteacherrate}}명
+		</div>
+		<div class='floor'>
+			<span class='column'>CCTV 수(구 기준)</span>: {{gu_cctv}}개
+		</div>
+		<div class='floor'>
+			<span class='column'>평균 거래액(구 기준)</span>: {{ gu_mean_price }}만원
+		</div>
+		<hr>
+		
+		<div class='floor'>
+			<span class='column'>최근 해당 단지 거래날짜</span>: {{transaction_year_month}}월
+		</div>
+		<div class='floor'>
+			<span class='column'>최근 해당 단지 평균 거래액수</span>: {{maxdate_avgcost}}만원
+		</div>
+		<div class='floor'>
+			<span class='column'>최근 해당 단지 평당 평균 거래액</span>: {{avgcost_per_pyeong}}만원
+		</div>
+			
+		<hr>
+		<div>
+			<table class="table">
+				<tr>
+  					<th>거래 연월</th><th>전용 면적</th><th>층</th><th>거래 가격(만원)</th><th>지역구 평균금액</th>
+  				</tr>
+					{% for data in dataset %}
+				<tr>
+					<td>{{ data.transaction_year_month}}</td>
+					<td>{{ data.exclusive_use_area}} m<sup>2</sup></td>
+					<td> {{ data.floor}}층 </td>
+					<td>{{ data.transaction_real_price}}만원</td>
+					<td>{{ gu_mean_price}}만원</td>
+				</tr>
+					{% endfor %}
+			</table>
+		</div>
 	</div>
 </div>
 </body>

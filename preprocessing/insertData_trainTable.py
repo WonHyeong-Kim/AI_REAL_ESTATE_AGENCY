@@ -10,7 +10,7 @@ use estate;
 pip install pymysql
 pip install sqlalchemy
 
-3.insertData.py 실행
+3.insertData_trainTable.py 실행
 
 주의할점 : 포트번호 및 기타 설정사항을 체크
 '''
@@ -20,13 +20,19 @@ import pymysql
 from sqlalchemy import create_engine
 pymysql.install_as_MySQLdb()
 
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+
 # 데이터 로드
-dataset = pd.read_csv('./dataset/train_add_cctv.csv')
+dataset_train = pd.read_csv('./dataset/train_add_cctv.csv')
+dataset = pd.read_csv('./dataset_pre/train.csv')
 
 try:
     engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:3306/estate", encoding='utf-8')
     conn = engine.connect()
-    dataset.to_sql(name='train', con=conn, if_exists='replace', index=False)
+    dataset_train.to_sql(name='train', con=conn, if_exists='replace', index=False)
+    print('dataset_train end')
+    dataset.to_sql(name='dataset', con=conn, if_exists='replace', index=False)
 
 except Exception as e:
     print('err : ', e)

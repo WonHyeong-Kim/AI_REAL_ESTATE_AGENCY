@@ -5,11 +5,11 @@ import os
 from django.http.response import HttpResponse
 import json
 import numpy as np
+
 from predictapp.models import Dataset, News, Gu, Train
 
 
 def MainFunc(request):
-
     '''
     # 네이버 부동산관련 기사 웹크롤링
     import requests
@@ -32,26 +32,26 @@ def MainFunc(request):
     for i in news_links:
         print(i['href'])
     '''
-    
+
     dataset = News.objects.all()
-    #print(len(dataset))
-    
-    news_datas=[]
+    # print(len(dataset))
+
+    news_datas = []
     for d in dataset:
         print(d.news_title)
-        dict ={'news_id':d.news_id, 'news_title':d.news_title, 'news_link':d.news_link}
+        dict = {'news_id': d.news_id, 'news_title': d.news_title, 'news_link': d.news_link}
         news_datas.append(dict)
-        
+
     print(news_datas)
-    
-    
-    return render(request, 'index.html', {'news_datas':news_datas})
-    
+
+    return render(request, 'index.html', {'news_datas': news_datas})
+
 
 def PredictFunc(request):
     pd.set_option('display.max_columns', None)
 
     df = Dataset.objects.all()
+
     i = 0
     datas = []
     chk = []
@@ -73,25 +73,72 @@ def InfoFunc(request):
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
         dataset = Dataset.objects.filter(apartment_id=apt_id)
-        dataset_Train = Train.objects.filter(apartment_id=apt_id)
+        train = Train.objects.filter(apartment_id=apt_id)
 
-        lastdata = dataset[-1]
-        apt = lastdata.apt
-        addr_kr = lastdata.addr_kr
-        city = lastdata.city
-        area = float(lastdata.exclusive_use_area)
-        area_pyeong = np.floor(area / 3.305785 * 100) / 100
-        transaction_year_month = lastdata.transaction_year_month
-        floor = int(lastdata.floor)
-        transaction_year_month = lastdata.transaction_year_month / 100
+        yearmonthlist = []
+        datelist = []
 
-        # 구 평균 거래가
-        gu_data = Gu.objects.get(gu_num=dataset_Train[0].gu)
+        def max_search(list):
+            n = len(list)  # 입력 크기 n
+            maxValue = list[0]  # 리스트의 첫 번째 값을 최대값으로 초기화
+            for i in range(1, n):  # 1부터 n까지 반복 실행
+                if list[i] > maxValue:  # 만약 이번 값이 최대값보다 크다면
+                    maxValue = list[i]  # 최대값을 i번째 값으로 변경
+            return maxValue  # 설정된 최대값을 반환
 
-    return render(request, 'info.html',
-                  {'gu_mean_price': gu_data.gu_mean_price, 'dataset': dataset, 'apt': apt, 'addr_kr': addr_kr,
-                   'city': city, 'area': area, 'area_pyeong': area_pyeong,
-                   'transaction_year_month': transaction_year_month, 'floor': floor})
+        for d in dataset:
+            apt = d.apt
+            addr_kr = d.addr_kr
+            city = d.city
+            area = float(d.exclusive_use_area)
+
+            area_pyeong = np.floor(area / 3.305785 * 100) / 100
+            transaction_year_month = d.transaction_year_month
+            floor = int(d.floor)
+
+            transaction_year_month = d.transaction_year_month / 100
+            yearmonthlist.append(d.transaction_year_month)
+
+        maxyearlist = max_search(yearmonthlist)
+
+        for t in train:
+            parksum = t.park_area_sum  # 해당 구 공원면적
+            bteacherrate = t.day_care_babyteacher_rate  # 해당 구 아기 대비 유치원교사 비율
+            area = float(t.exclusive_use_area)
+            area_pyeong = np.floor(area / 3.305785 * 100) / 100  # 평수
+            year_of_completion = t.year_of_completion  # 완공연도
+            # CCTV 수
+
+            '''해당지역 최근 거래내역 : 거래액'''
+            # print(t.transaction_real_price)
+            # print(t.transaction_year_month)
+            # print(type(t.transaction_year_month))
+
+            recent_transaction_list = []
+            if t.transaction_year_month == maxyearlist:
+                recent_transaction_list.append([t.transaction_year_month, t.transaction_real_price])
+        # print(recent_transaction_list)
+        # print(recent_transaction_list[0][0])
+        # print('최근 거래 일시:',recent_transaction_list[0][0])
+        print(len(recent_transaction_list))
+        maxdate_avgcost = recent_transaction_list[0][1] / len(recent_transaction_list)
+        # print('최근 거래 액수:',maxdate_avgcost)
+        '''최근 해당 단지 평당 평균 거래액'''
+
+        avgcost_per_pyeong = maxdate_avgcost / area_pyeong
+        print('최근 평균 거래 액수:', avgcost_per_pyeong)
+
+        '''평균 거래액(구별)'''
+        # print(dataset_Train[0].gu)
+        gu_data = Gu.objects.get(gu_num=train[0].gu)
+
+    return render(request, 'info.html', {'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
+                                         'apt': apt, 'addr_kr': addr_kr, 'city': city, 'area': area, 'area_pyeong': area_pyeong, 'transaction_year_month': transaction_year_month,
+                                         'floor': floor, 'parksum': parksum, 'bteacherrate': bteacherrate,
+                                         'year_of_completion': year_of_completion,
+                                         'maxdate_avgcost': round(maxdate_avgcost),
+                                         'avgcost_per_pyeong': format(avgcost_per_pyeong, ".1f"),
+                                         'gu_cctv': gu_data.gu_cctv})
 
 
 def ModelFunc(request):
