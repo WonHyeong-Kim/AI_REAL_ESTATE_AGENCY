@@ -51,7 +51,7 @@
 		</div>
 		<hr>
 
-		<table style="width: 70%" class="table">
+		<table border="1" class="table">
 			<tr>
   				<th>거래연월</th><th>거래일</th><th>거래 가격</th><th>지역구 평균금액</th>
   			</tr>
@@ -60,7 +60,7 @@
 				<td>{{ data.transaction_year_month }}</td>
 				<td>{{ data.transaction_date }}</td>
 				<td>{{ data.transaction_real_price }}</td>
-				<td>{{ data.gu }}</td>
+				<td>{{ gu_mean_price }}</td>
 			</tr>
 			{% endfor %}
 		</table>

@@ -1,8 +1,8 @@
 import pandas as pd
 
 # 데이터 로드
-train_data = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/dataset.csv')
-cctv = pd.read_csv("https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/cctv_origin.csv", encoding="EUC-KR")
+train_data = pd.read_csv('./dataset/train_park_daycare.csv')
+cctv = pd.read_csv("./dataset/cctv_origin.csv", encoding="EUC-KR")
 
 ## 데이터 전처리
 # 데이터 추출
@@ -26,6 +26,7 @@ cctv['number of cctv'] = pd.to_numeric(cctv['number of cctv'])
 # 조인
 new_data = pd.merge(train_data, cctv, on='gu', how='left')
 
+print(new_data.info())
 # 저장
-new_data.to_csv("train_add_cctv.csv", header=True, index=False)
+new_data.to_csv("./dataset/train_add_cctv.csv", header=True, index=False)
 

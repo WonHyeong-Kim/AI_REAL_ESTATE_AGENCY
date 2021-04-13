@@ -6,9 +6,9 @@ from django.http.response import HttpResponse
 import json
 import numpy as np
 from predictapp.models import Dataset
+from predictapp.models import Gu
 
-# Create your views here.
-from ai_real_estate_agency.predictapp.models import Gu
+from predictapp.models import Train
 
 
 def MainFunc(request):
@@ -32,7 +32,7 @@ def PredictFunc(request):
     datas = []
     for d in df:
         print(d.apartment_id)
-        dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr, 'gu': d.gu}
+        dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr}
         datas.append(dict)
         i = i + 1
         if i == 1000:
@@ -92,11 +92,13 @@ def PredictFunc(request):
     return render(request, 'predict.html', {'datas':datas})
 
 def InfoFunc(request):
+    global city
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
         print(apt_id)
         dataset = Dataset.objects.filter(apartment_id = apt_id)
+        dataset_Train = Train.objects.filter(apartment_id=apt_id)
         # apartment_id로 DB의 정보 조회
         #path = os.getcwd()
         #test_df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
@@ -115,6 +117,7 @@ def InfoFunc(request):
             transaction_year_month = d.transaction_year_month
             floor = int(d.floor)
             transaction_year_month = d.transaction_year_month/100
+
         '''
         apt = str(df['apt'].values)[2:-2]
         addr_kr = str(df['addr_kr'].values)[2:-2]
@@ -127,11 +130,11 @@ def InfoFunc(request):
         '''
 
         # 구 평균 거래가
-        gu = request.GET.get('gu')
-        gu_mean_price = Gu.objects.filter(gu=gu).values('gu_mean_price')
-        print(gu_mean_price)
+        print(dataset_Train[0].gu)
+        gu_data = Gu.objects.get(gu_num=dataset_Train[0].gu)
+        print(gu_data.gu_mean_price)
 
-    return render(request, 'info.html', {'gu_mean_price': gu_mean_price,  'dataset': dataset, 'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
+    return render(request, 'info.html', {'gu_mean_price': gu_data.gu_mean_price,  'dataset': dataset, 'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
 
 def ModelFunc(request):
     '''

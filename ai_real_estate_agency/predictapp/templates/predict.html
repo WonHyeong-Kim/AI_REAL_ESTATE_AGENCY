@@ -86,15 +86,11 @@
 					address[1] = data[i][key]
 					console.log(data[i][key]);
 				}
-				if(key === 'apartment_id'){
+				if(key === 'apartment_id') {
 					address[2] = data[i][key]
 					//apartment_id = data[i][key]
 					//console.log(data[i][key]);
 				}
-				if(key === 'gu'){
-					address[3] = data[i][key]
-				}
-
 			}
 			// 주소로 좌표를 검색합니다
 			geocoder.addressSearch(address[0], function(result, status) {
@@ -149,7 +145,7 @@
 			        	//console.log('info?apartment_id='+apartment_id);
 			            // 마커 위에 인포윈도우를 표시합니다
 			            //infowindow.open(map, marker);
-			        	window.location.href = 'info?apartment_id='+address[2]+"?gu="+address[3];
+			        	window.location.href = 'info?apartment_id='+address[2];
 			        });
 
 			    }
