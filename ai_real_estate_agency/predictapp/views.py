@@ -5,15 +5,48 @@ import os
 from django.http.response import HttpResponse
 import json
 import numpy as np
-from predictapp.models import Dataset
-from predictapp.models import Gu
-
-from predictapp.models import Train
+from predictapp.models import Dataset, News, Gu, Train
 
 
 def MainFunc(request):
-    return render(request, 'index.html')
 
+    '''
+    # 네이버 부동산관련 기사 웹크롤링
+    import requests
+    from bs4 import BeautifulSoup
+
+    # 검색 키워드
+    search_word = '부동산'
+
+    # 해당 url의 html문서를 soup 객체로 저장
+    url = f'https://m.search.naver.com/search.naver?where=m_news&sm=mtb_jum&query={search_word}'
+    req = requests.get(url)
+    html = req.text
+    soup = BeautifulSoup(html, 'html.parser')
+    
+    search_result = soup.select_one('#news_result_list')
+    news_links = search_result.select('.bx > .news_wrap > a')
+    
+    for i in news_links:
+        print(i.get_text())
+    for i in news_links:
+        print(i['href'])
+    '''
+    
+    dataset = News.objects.all()
+    #print(len(dataset))
+    
+    news_datas=[]
+    for d in dataset:
+        print(d.news_title)
+        dict ={'news_id':d.news_id, 'news_title':d.news_title, 'news_link':d.news_link}
+        news_datas.append(dict)
+        
+    print(news_datas)
+    
+    
+    return render(request, 'index.html', {'news_datas':news_datas})
+    
 
 def PredictFunc(request):
     pd.set_option('display.max_columns', None)
@@ -32,33 +65,28 @@ def PredictFunc(request):
                 break
 
     # print(datas)
-    print('길이 ', len(datas))
     return render(request, 'predict.html', {'datas': datas})
 
 
 def InfoFunc(request):
-
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
-        print(apt_id)
         dataset = Dataset.objects.filter(apartment_id=apt_id)
         dataset_Train = Train.objects.filter(apartment_id=apt_id)
 
-        for d in dataset:
-            apt = d.apt
-            addr_kr = d.addr_kr
-            city = d.city
-            area = float(d.exclusive_use_area)
-            area_pyeong = np.floor(area / 3.305785 * 100) / 100
-            transaction_year_month = d.transaction_year_month
-            floor = int(d.floor)
-            transaction_year_month = d.transaction_year_month / 100
+        lastdata = dataset[-1]
+        apt = lastdata.apt
+        addr_kr = lastdata.addr_kr
+        city = lastdata.city
+        area = float(lastdata.exclusive_use_area)
+        area_pyeong = np.floor(area / 3.305785 * 100) / 100
+        transaction_year_month = lastdata.transaction_year_month
+        floor = int(lastdata.floor)
+        transaction_year_month = lastdata.transaction_year_month / 100
 
         # 구 평균 거래가
-        print(dataset_Train[0].gu)
         gu_data = Gu.objects.get(gu_num=dataset_Train[0].gu)
-        print(gu_data.gu_mean_price)
 
     return render(request, 'info.html',
                   {'gu_mean_price': gu_data.gu_mean_price, 'dataset': dataset, 'apt': apt, 'addr_kr': addr_kr,

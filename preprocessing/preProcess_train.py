@@ -61,10 +61,11 @@ print(gu_dict_num)
 for m in data['dong']:
     gu.append(gu_dict_num[gu_dict[m]])
 # print(gu)
-data['gu'] = gu
+data['gu'] = gu  
 data = data.drop(['dong'], axis=1)
-print(data.info())
+print(data.info())  
 data.to_csv("./dataset/train_ver1.csv", header=True, index=False)
+
 
 
 
