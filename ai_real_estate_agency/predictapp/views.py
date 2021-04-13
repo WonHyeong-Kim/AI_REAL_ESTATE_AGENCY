@@ -5,7 +5,8 @@ import os
 from django.http.response import HttpResponse
 import json
 import numpy as np
-from predictapp.models import Dataset
+from predictapp.models import Dataset, Train
+import datetime
 
 # Create your views here.
 def MainFunc(request):
@@ -22,21 +23,21 @@ def PredictFunc(request):
     #print(park_df)
     #df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
     df = Dataset.objects.all()
-    print(len(df))
-    print(df)
-    print(type(df))
+    #print(len(df))
+    #print(df)
+    #print(type(df))
     i = 0
     datas = []
     for d in df:
-        print(d.apartment_id)
+        #print(d.apartment_id)
         dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr}
         datas.append(dict)
         i = i + 1
-        if i == 1000:
+        if i == 100:
             break
     #print(df)
     #print(len(df))
-    print(datas)
+    #print(datas)
     '''
     datas = []
     for i in range(100):
@@ -92,8 +93,10 @@ def InfoFunc(request):
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
-        print(apt_id)
+        #print('apt_id: ',apt_id)
+        
         dataset = Dataset.objects.filter(apartment_id = apt_id)
+        #print('dataset: ',dataset)
         # apartment_id로 DB의 정보 조회
         #path = os.getcwd()
         #test_df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
@@ -103,26 +106,83 @@ def InfoFunc(request):
         #print(test_df.apartment_id == apt_id)
         #df = test_df[test_df.apartment_id == apt_id]
         #print(d)
+        yearmonthlist = []
+        datelist = []
+        def max_search(list):
+            n = len(list) #입력 크기 n
+            maxValue = list[0] #리스트의 첫 번째 값을 최대값으로 초기화
+            for i in range(1, n): #1부터 n까지 반복 실행
+                if list[i] > maxValue: #만약 이번 값이 최대값보다 크다면
+                    maxValue = list[i] #최대값을 i번째 값으로 변경
+            return maxValue #설정된 최대값을 반환
+        
         for d in dataset:
             apt = d.apt
             addr_kr = d.addr_kr
             city = d.city
             area = float(d.exclusive_use_area)
             area_pyeong = np.floor(area/ 3.305785 * 100)/100
-            transaction_year_month = d.transaction_year_month
+            #transaction_year_month = d.transaction_year_month
             floor = int(d.floor)
-            transaction_year_month = d.transaction_year_month/100
-        '''
-        apt = str(df['apt'].values)[2:-2]
-        addr_kr = str(df['addr_kr'].values)[2:-2]
-        city = str(df['city'].values)[2:-2]
-        area = float(df['exclusive_use_area'].values)
-        area_pyeong = np.floor(area/ 3.305785 * 100)/100
-        transaction_year_month = int(df['transaction_year_month'].values)
-        floor = int(df['floor'].values)
-        transaction_year_month = transaction_year_month/100
-        '''
-    return render(request, 'info.html', {'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
+            transaction_year_month = d.transaction_year_month/100  
+            
+            yearmonthlist.append(d.transaction_year_month)
+            #print(yearmonthlist)
+            
+            '''
+            apt = str(df['apt'].values)[2:-2]
+            addr_kr = str(df['addr_kr'].values)[2:-2]
+            city = str(df['city'].values)[2:-2]
+            area = float(df['exclusive_use_area'].values)
+            area_pyeong = np.floor(area/ 3.305785 * 100)/100
+            transaction_year_month = int(df['transaction_year_month'].values)
+            floor = int(df['floor'].values)
+            transaction_year_month = transaction_year_month/100
+            '''
+            
+        
+        maxyearlist = max_search(yearmonthlist)
+          
+        train = Train.objects.filter(apartment_id = apt_id) 
+        #models에서 Train데이터의 apartment_id를 primary_key=True로 바꿔주어야 에러가 나지 않는다.
+        #print('train: ',train)
+        
+        
+        
+        for t in train:
+            parksum = t.park_area_sum                           # 해당 구 공원면적
+            bteacherrate = t.day_care_babyteacher_rate          # 해당 구 아기 대비 유치원교사 비율
+            area = float(t.exclusive_use_area)
+            area_pyeong = np.floor(area/ 3.305785 * 100)/100    #평수
+            year_of_completion = t.year_of_completion           #완공연도                                           
+            #CCTV 수
+            
+            
+            '''해당지역 최근 거래내역 : 거래액'''
+            #print(t.transaction_real_price)
+            #print(t.transaction_year_month)
+            #print(type(t.transaction_year_month))
+            
+            recent_transaction_list  = []
+            if t.transaction_year_month == maxyearlist:
+                #print(t.transaction_year_month) 
+                #print(t.transaction_date)
+                #print(t.transaction_real_price)
+                recent_transaction_list.append([t.transaction_year_month, t.transaction_real_price] )
+        #print(recent_transaction_list)
+        #print(recent_transaction_list[0][0])
+        #print('최근 거래 일시:',recent_transaction_list[0][0])
+        maxdate_avgcost = recent_transaction_list[0][1] / len(recent_transaction_list)
+        #print('최근 평균 거래 액수:',maxdate_avgcost)
+        '''평균 거래액(구별)'''
+        '''최근 해당 단지 평당 평균 거래액'''
+            
+        
+        
+    return render(request, 'info.html', {'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, \
+                                         'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month,\
+                                         'floor':floor, 'parksum':parksum, 'bteacherrate':bteacherrate,\
+                                         'year_of_completion':maxyearlist, 'maxdate_avgcost':maxdate_avgcost  })
 
 def ModelFunc(request):
     '''
