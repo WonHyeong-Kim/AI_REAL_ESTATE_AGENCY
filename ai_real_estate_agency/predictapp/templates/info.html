@@ -50,6 +50,7 @@
 			<span class='column'>층&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</span> : {{floor}}층
 		</div>
 		<hr>
+<<<<<<< HEAD
 		<div class='floor'>
 			<span class='column'> 공원면적(구 기준) </span> : {{parksum}}m<sup>2</sup>
 		</div>
@@ -76,6 +77,23 @@
 		
 		
 		<hr>
+=======
+
+		<table border="1" class="table">
+			<tr>
+  				<th>거래연월</th><th>전용면적</th><th>층</th><th>거래 가격(만원)</th><th>지역구 평균금액</th>
+  			</tr>
+			{% for data in dataset %}
+			<tr>
+				<td>{{ data.transaction_year_month }}</td>
+				<td>{{ data.exclusive_use_area }} m<sup>2</sup></td>
+				<td>{{ data.floor }}층</td>
+				<td>{{ data.transaction_real_price }}</td>
+				<td>{{ gu_mean_price }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+>>>>>>> 01ea815644f4b3c2e0ab38449a602602c6e2c11e
 	</div>
 </div>
 </body>

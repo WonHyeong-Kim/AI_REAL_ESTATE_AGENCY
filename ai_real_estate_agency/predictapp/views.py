@@ -1,34 +1,40 @@
 from django.shortcuts import render
 import pandas as pd
 import os
-#from predictapp.models import Test
+# from predictapp.models import Test
 from django.http.response import HttpResponse
 import json
 import numpy as np
+<<<<<<< HEAD
 from predictapp.models import Dataset, Train
 import datetime
+=======
+from predictapp.models import Dataset
+from predictapp.models import Gu
 
-# Create your views here.
+from predictapp.models import Train
+
+>>>>>>> 01ea815644f4b3c2e0ab38449a602602c6e2c11e
+
 def MainFunc(request):
     return render(request, 'index.html')
-    
+
+
 def PredictFunc(request):
-#     path = os.getcwd()
-    #print(os.getcwd())
     pd.set_option('display.max_columns', None)
-    #day_care_center_df = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/PYTHON/main/day_care_center.csv')
-    #print(day_care_center_df)
-    
-    #park_df = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/PYTHON/main/park.csv')
-    #print(park_df)
-    #df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
+
     df = Dataset.objects.all()
+<<<<<<< HEAD
     #print(len(df))
     #print(df)
     #print(type(df))
+=======
+>>>>>>> 01ea815644f4b3c2e0ab38449a602602c6e2c11e
     i = 0
     datas = []
+    chk = []
     for d in df:
+<<<<<<< HEAD
         #print(d.apartment_id)
         dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr}
         datas.append(dict)
@@ -88,11 +94,27 @@ def PredictFunc(request):
     #return HttpResponse(json.dumps(datas), content_type='application/json')
     #return render(request, 'predict.html')
     return render(request, 'predict.html', {'datas':datas})
+=======
+        if d.apartment_id not in chk:
+            dict = {'apartment_id': d.apartment_id, 'apt': d.apt, 'addr_kr': d.addr_kr}
+            datas.append(dict)
+            chk.append(d.apartment_id)
+            i = i + 1
+            if i == 1000:
+                break
+
+    # print(datas)
+    print('길이 ', len(datas))
+    return render(request, 'predict.html', {'datas': datas})
+
+>>>>>>> 01ea815644f4b3c2e0ab38449a602602c6e2c11e
 
 def InfoFunc(request):
+
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
+<<<<<<< HEAD
         #print('apt_id: ',apt_id)
         
         dataset = Dataset.objects.filter(apartment_id = apt_id)
@@ -116,11 +138,18 @@ def InfoFunc(request):
                     maxValue = list[i] #최대값을 i번째 값으로 변경
             return maxValue #설정된 최대값을 반환
         
+=======
+        print(apt_id)
+        dataset = Dataset.objects.filter(apartment_id=apt_id)
+        dataset_Train = Train.objects.filter(apartment_id=apt_id)
+
+>>>>>>> 01ea815644f4b3c2e0ab38449a602602c6e2c11e
         for d in dataset:
             apt = d.apt
             addr_kr = d.addr_kr
             city = d.city
             area = float(d.exclusive_use_area)
+<<<<<<< HEAD
             area_pyeong = np.floor(area/ 3.305785 * 100)/100
             #transaction_year_month = d.transaction_year_month
             floor = int(d.floor)
@@ -183,6 +212,23 @@ def InfoFunc(request):
                                          'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month,\
                                          'floor':floor, 'parksum':parksum, 'bteacherrate':bteacherrate,\
                                          'year_of_completion':maxyearlist, 'maxdate_avgcost':maxdate_avgcost  })
+=======
+            area_pyeong = np.floor(area / 3.305785 * 100) / 100
+            transaction_year_month = d.transaction_year_month
+            floor = int(d.floor)
+            transaction_year_month = d.transaction_year_month / 100
+
+        # 구 평균 거래가
+        print(dataset_Train[0].gu)
+        gu_data = Gu.objects.get(gu_num=dataset_Train[0].gu)
+        print(gu_data.gu_mean_price)
+
+    return render(request, 'info.html',
+                  {'gu_mean_price': gu_data.gu_mean_price, 'dataset': dataset, 'apt': apt, 'addr_kr': addr_kr,
+                   'city': city, 'area': area, 'area_pyeong': area_pyeong,
+                   'transaction_year_month': transaction_year_month, 'floor': floor})
+
+>>>>>>> 01ea815644f4b3c2e0ab38449a602602c6e2c11e
 
 def ModelFunc(request):
     '''
@@ -353,5 +399,4 @@ def ModelFunc(request):
     print('설명력 : ',r2_score(y_test, model.predict(x_test))) #설명력 :  0.76281
     '''
     return render(request, 'model.html')
-#def model():
-    
+# def model():
