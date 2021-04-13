@@ -81,6 +81,7 @@
 				<tr>
   					<th>거래 연월</th><th>전용 면적</th><th>층</th><th>거래 가격(만원)</th><th>지역구 평균금액</th>
   				</tr>
+					{% if dataset %}
 					{% for data in dataset %}
 				<tr>
 					<td>{{ data.transaction_year_month}}</td>
@@ -90,6 +91,26 @@
 					<td>{{ gu_mean_price}}만원</td>
 				</tr>
 					{% endfor %}
+				<tr>
+   					<td colspan="5" style="text-align: center;">
+   						{% if dataset.paginator.num_pages > 1 %}  {# paginator.num_pages : 전체 페이지 수 #}
+  	   				<div>
+  	   				{% if dataset.has_previous %}
+  	   				  	<a href="/info?page={{dataset.previous_page_number}}&apartment_id={{apartment_id}}">&laquo;이전</a>
+  	   				{% endif %}
+
+  	   				{% if dataset.has_next %}
+  	   					<a href="/info?page={{dataset.next_page_number}}&apartment_id={{apartment_id}}">다음&raquo;</a>
+  	   				{% endif %}
+  	   			&nbsp;&nbsp;
+  	   				(페이지 : {{dataset.number}} / {{dataset.paginator.num_pages}})
+  	   				</div>
+					{% endif %}
+   					</td>
+   				</tr>
+					{% else %}
+  				<tr><td colspan="5">글이 없어요</td></tr>
+				{% endif %}
 			</table>
 		</div>
 	</div>

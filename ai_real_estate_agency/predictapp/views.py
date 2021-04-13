@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 import pandas as pd
 import os
@@ -38,11 +39,11 @@ def MainFunc(request):
 
     news_datas = []
     for d in dataset:
-        print(d.news_title)
+        # print(d.news_title)
         dict = {'news_id': d.news_id, 'news_title': d.news_title, 'news_link': d.news_link}
         news_datas.append(dict)
 
-    print(news_datas)
+    # print(news_datas)
 
     return render(request, 'index.html', {'news_datas': news_datas})
 
@@ -72,35 +73,39 @@ def InfoFunc(request):
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
-        dataset = Dataset.objects.filter(apartment_id=apt_id)
+        datasets = Dataset.objects.filter(apartment_id=apt_id)
         train = Train.objects.filter(apartment_id=apt_id)
 
-        yearmonthlist = []
-        datelist = []
+        # 데이터 페이징 처리
+        paginator = Paginator(datasets, 5)
+        page = request.GET.get('page')
 
-        def max_search(list):
-            n = len(list)  # 입력 크기 n
-            maxValue = list[0]  # 리스트의 첫 번째 값을 최대값으로 초기화
-            for i in range(1, n):  # 1부터 n까지 반복 실행
-                if list[i] > maxValue:  # 만약 이번 값이 최대값보다 크다면
-                    maxValue = list[i]  # 최대값을 i번째 값으로 변경
-            return maxValue  # 설정된 최대값을 반환
+        try:
+            dataset = paginator.page(page)
+        except PageNotAnInteger:
+            dataset = paginator.page(1)
+        except EmptyPage:
+            dataset = paginator.page(paginator.num_pages)
 
-        for d in dataset:
+
+        for idx, d in enumerate(dataset):
             apt = d.apt
             addr_kr = d.addr_kr
             city = d.city
             area = float(d.exclusive_use_area)
 
             area_pyeong = np.floor(area / 3.305785 * 100) / 100
+            dataset[idx].exclusive_use_area = np.round(d.exclusive_use_area, 2)
             transaction_year_month = d.transaction_year_month
             floor = int(d.floor)
 
             transaction_year_month = d.transaction_year_month / 100
-            yearmonthlist.append(d.transaction_year_month)
 
-        maxyearlist = max_search(yearmonthlist)
 
+        last_transaction = train[len(train)-1].transaction_year_month
+        last_transaction_price_sum = 0
+        last_transaction_area_sum = 0
+        cont = 0
         for t in train:
             parksum = t.park_area_sum  # 해당 구 공원면적
             bteacherrate = t.day_care_babyteacher_rate  # 해당 구 아기 대비 유치원교사 비율
@@ -113,26 +118,21 @@ def InfoFunc(request):
             # print(t.transaction_real_price)
             # print(t.transaction_year_month)
             # print(type(t.transaction_year_month))
+            if t.transaction_year_month == last_transaction:
+                cont += 1
+                last_transaction_price_sum += t.transaction_real_price
+                last_transaction_area_sum += area_pyeong
 
-            recent_transaction_list = []
-            if t.transaction_year_month == maxyearlist:
-                recent_transaction_list.append([t.transaction_year_month, t.transaction_real_price])
-        # print(recent_transaction_list)
-        # print(recent_transaction_list[0][0])
-        # print('최근 거래 일시:',recent_transaction_list[0][0])
-        print(len(recent_transaction_list))
-        maxdate_avgcost = recent_transaction_list[0][1] / len(recent_transaction_list)
-        # print('최근 거래 액수:',maxdate_avgcost)
+        maxdate_avgcost = last_transaction_price_sum / cont
+
         '''최근 해당 단지 평당 평균 거래액'''
+        avgcost_per_pyeong = maxdate_avgcost / last_transaction_area_sum
 
-        avgcost_per_pyeong = maxdate_avgcost / area_pyeong
-        print('최근 평균 거래 액수:', avgcost_per_pyeong)
 
         '''평균 거래액(구별)'''
-        # print(dataset_Train[0].gu)
         gu_data = Gu.objects.get(gu_num=train[0].gu)
 
-    return render(request, 'info.html', {'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
+    return render(request, 'info.html', {'apartment_id': apt_id, 'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
                                          'apt': apt, 'addr_kr': addr_kr, 'city': city, 'area': area, 'area_pyeong': area_pyeong, 'transaction_year_month': transaction_year_month,
                                          'floor': floor, 'parksum': parksum, 'bteacherrate': bteacherrate,
                                          'year_of_completion': year_of_completion,
@@ -311,3 +311,18 @@ def ModelFunc(request):
     '''
     return render(request, 'model.html')
 # def model():
+
+
+def ListFunc(request):
+    dataset = Dataset.objects.filter(apartment_id=apt_id)
+    paginator = Paginator(dataset, 5)
+    page = request.GET.get('page')
+
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, 'info.html', {'data': data})
