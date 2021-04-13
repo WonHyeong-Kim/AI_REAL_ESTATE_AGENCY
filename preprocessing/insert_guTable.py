@@ -22,7 +22,7 @@ for idx, data in train_data.iterrows():
     # 방문하지 않았으면 chk[gu] = True
     if chk[gu]:
         gu_area[gu] = data['park_area_sum']
-        gu_cctv[gu] = int(data['number of cctv'])
+        gu_cctv[gu] = int(data['cctv_num'])
         gu_daycare[gu] = data['day_care_babyTeacher_rate']
         chk[gu] = False
 
@@ -55,7 +55,7 @@ gu_data = pd.DataFrame(gu_dic, columns=['gu_name', 'gu_num', 'gu_area', 'gu_dayc
 
 
 try:
-    engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:3306/estate", encoding='utf-8')
+    engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:4406/estate", encoding='utf-8')
     conn = engine.connect()
     gu_data.to_sql(name='gu', con=conn, if_exists='replace', index=False)
 
