@@ -1,105 +1,56 @@
 from django.shortcuts import render
 import pandas as pd
 import os
-#from predictapp.models import Test
+# from predictapp.models import Test
 from django.http.response import HttpResponse
 import json
 import numpy as np
+import datetime
+
 from predictapp.models import Dataset
 from predictapp.models import Gu
 
 from predictapp.models import Train
-
+'''20210413'''
 
 def MainFunc(request):
     return render(request, 'index.html')
-    
+
+
 def PredictFunc(request):
-#     path = os.getcwd()
-    #print(os.getcwd())
     pd.set_option('display.max_columns', None)
-    #day_care_center_df = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/PYTHON/main/day_care_center.csv')
-    #print(day_care_center_df)
-    
-    #park_df = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/PYTHON/main/park.csv')
-    #print(park_df)
-    #df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
+
     df = Dataset.objects.all()
-    print(len(df))
-    print(df)
-    print(type(df))
+
     i = 0
     datas = []
+    chk = []
     for d in df:
-        print(d.apartment_id)
+        #print(d.apartment_id)
         dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr}
         datas.append(dict)
         i = i + 1
-        if i == 1000:
+        if i == 100:
             break
     #print(df)
     #print(len(df))
-    print(datas)
-    '''
-    datas = []
-    for i in range(100):
-    #for i in range(len(test_df)):
-        print(i)
-        transaction_id = test_df.loc[i].transaction_id;
-        apartment_id   = test_df.loc[i].apartment_id;
-        city = test_df.loc[i].city;
-        dong = test_df.loc[i].dong;
-        jibun = test_df.loc[i].jibun;
-        apt = test_df.loc[i].apt;
-        addr_kr = test_df.loc[i].addr_kr;
-        exclusive_use_area = test_df.loc[i].exclusive_use_area;
-        year_of_completion = test_df.loc[i].year_of_completion;
-        transaction_year_month = test_df.loc[i].transaction_year_month;
-        transaction_date = test_df.loc[i].transaction_date;
-        floor = test_df.loc[i].floor;
-        dict={'transaction_id':transaction_id,
-              'apartment_id':apartment_id,
-              'city':city,
-              'dong':dong,
-              'jibun':jibun,
-              'apt':apt,
-              'addr_kr':addr_kr,
-              'exclusive_use_area':exclusive_use_area,
-              'year_of_completion':year_of_completion,
-              'transaction_year_month':transaction_year_month,
-              'transaction_date':transaction_date,
-              'floor':floor
-              }
-        datas.append(dict)
-#         Test(
-#              transaction_id = test_df.loc[i].transaction_id,
-#              apartment_id   = test_df.loc[i].apartment_id,
-#              city = test_df.loc[i].city,
-#              dong = test_df.loc[i].dong,
-#              jibun = test_df.loc[i].jibun,
-#              apt = test_df.loc[i].apt,
-#              addr_kr = test_df.loc[i].addr_kr,
-#              exclusive_use_area = test_df.loc[i].exclusive_use_area,
-#              year_of_completion = test_df.loc[i].year_of_completion,
-#              transaction_year_month = test_df.loc[i].transaction_year_month,
-#              transaction_date = test_df.loc[i].transaction_date,
-#              floor = test_df.loc[i].floor
-#              ).save()
-    print(datas)
-    '''
+    #print(datas)
+    
     #return HttpResponse(json.dumps(datas), content_type='application/json')
     #return render(request, 'predict.html')
     return render(request, 'predict.html', {'datas':datas})
 
+
 def InfoFunc(request):
-    global city
+
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
-        print(apt_id)
+        #print('apt_id: ',apt_id)
+        
         dataset = Dataset.objects.filter(apartment_id = apt_id)
         dataset_Train = Train.objects.filter(apartment_id=apt_id)
-        
+
         yearmonthlist = []
         datelist = []
         def max_search(list):
@@ -109,15 +60,18 @@ def InfoFunc(request):
                 if list[i] > maxValue: #만약 이번 값이 최대값보다 크다면
                     maxValue = list[i] #최대값을 i번째 값으로 변경
             return maxValue #설정된 최대값을 반환
-       
+
+
         for d in dataset:
             apt = d.apt
             addr_kr = d.addr_kr
             city = d.city
             area = float(d.exclusive_use_area)
-            area_pyeong = np.floor(area/ 3.305785 * 100)/100
+
+            area_pyeong = np.floor(area / 3.305785 * 100) / 100
             transaction_year_month = d.transaction_year_month
             floor = int(d.floor)
+            
             transaction_year_month = d.transaction_year_month/100
             yearmonthlist.append(d.transaction_year_month)
         
@@ -132,7 +86,6 @@ def InfoFunc(request):
             area_pyeong = np.floor(area/ 3.305785 * 100)/100    #평수
             year_of_completion = t.year_of_completion           #완공연도                                           
             #CCTV 수
-            
             
             '''해당지역 최근 거래내역 : 거래액'''
             #print(t.transaction_real_price)
@@ -156,7 +109,6 @@ def InfoFunc(request):
         avgcost_per_pyeong = maxdate_avgcost / area_pyeong
         print('최근 평균 거래 액수:',avgcost_per_pyeong)
         
-        
         # 구 평균 거래가
         '''평균 거래액(구별)'''
         #print(dataset_Train[0].gu)
@@ -169,6 +121,7 @@ def InfoFunc(request):
                                          'floor':floor, 'parksum':parksum, 'bteacherrate':bteacherrate,\
                                          'year_of_completion':year_of_completion, 'maxdate_avgcost':round(maxdate_avgcost),\
                                          'avgcost_per_pyeong':format(avgcost_per_pyeong, ".1f"), 'gu_cctv':gu_data.gu_cctv })
+
 
 def ModelFunc(request):
     '''
@@ -339,5 +292,4 @@ def ModelFunc(request):
     print('설명력 : ',r2_score(y_test, model.predict(x_test))) #설명력 :  0.76281
     '''
     return render(request, 'model.html')
-#def model():
-    
+# def model():
