@@ -19,12 +19,17 @@
 	<script src='/static/js/jquery-1.12.4.min.js'></script>
 	<script src='/static/js/main.js'></script>
 	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+	
+	<!-- boot strap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!-- 디자인용 -->
 <div class="containerBg"></div>
 <!-- 전체 -->
-<div class="container">
+<div class="container" style="height:10000px;">
 	{% block header %}
 		{% include "left.html"%}
 	{% endblock %}
@@ -33,75 +38,193 @@
 	<div class="contents">
 		<!-- 검색창 -->
 		<div class="search">
-			<h1>모델 분석 정보</h1>
+			<h2>모델 분석 정보</h2>
 		</div>
-		
+		<br>
+		<h3>1. 변수</h3>
 		<!-- 상세정보 -->
-		<table>
+		<table class="table">
 			<tr>
-				<td>변수명</td><td>내용</td><td>변수형태</td>
+				<th>변수명</th><th>내용</th><th>변수형태</th>
 			</tr>
-			<tr>
+			<tr class="success">
 				<td>apartment_id</td><td>아파트 아이디</td><td>범주형</td>
 			</tr>
-			<tr>
+			<tr class="success">
 				<td>gu</td><td>구</td><td>범주형</td>
 			</tr>
-			<tr>
+			<tr class="info">
 				<td>exclusive_use_area</td><td>전용면적</td><td>수치형</td>
 			</tr>
-			<tr>
+			<tr class="success">
 				<td>year_of_completion</td><td>설립일자</td><td>범주형</td>
 			</tr>
-			<tr>
+			<tr class="success">
 				<td>transaction_year_month</td><td>거래년월</td><td>범주형</td>
 			</tr>
 			
-			<tr>
+			<tr class="success">
 				<td>transaction_date</td><td>거래날짜</td><td>범주형</td>
 			</tr>
-			<tr>
+			<tr class="success">
 				<td>floor</td><td>층</td><td>범주형</td>
 			</tr>
-			<tr>
+			<tr class="info">
 				<td>park_area_sum</td><td>공원 면적</td><td>수치형</td>
 			</tr>
-			<tr>
+			<tr class="info">
 				<td>day_care_babyTeacher_rate</td><td>보육 교사 수</td><td>수치형</td>
 			</tr>
-			<tr>
+			<tr class="info">
 				<td>transaction_real_price</td><td>집 값</td><td>수치형</td>
 			</tr>
+			<tr class="info">
+				<td>cctv_num</td><td>구 별 cctv</td><td>수치형</td>
+			</tr>
 		</table>
-		<h3>exclusive_use_area 상관계수</h3>
-		<div>
-			<img src='/static/model/model1.png' alt ='model1'>
-		</div>
+		<br>
 		
-		<div>
-			<img src='/static/model/model2.png' alt ='model2'>
+		<h3>2. 산포도</h3>
+	   	<h4>① 전용면적</h4>
+		<div class='postModel'>
+			<img src='/static/model/linear_area.png' alt ='model2'>
 	   	</div>
+	   	<br>
 	   	
-	   	<div>
-			<img src='/static/model/model3.png' alt ='model3'>
+	   	<h4>② 공원면적</h4>
+		<div class='postModel'>
+			<img src='/static/model/linear_park.png' alt ='model2'>
 	   	</div>
-	   	<div>
-			<img src='/static/model/model4.png' alt ='model4'>
+	   	<br>
+	   	
+	   	<h4>③ 교육지수</h4>
+		<div class='postModel'>
+			<img src='/static/model/linear_teacher.png' alt ='model2'>
 	   	</div>
+		<h3>3. 사후검증</h3>
+		<h4>① 구</h4>
+		<div>
+			<img class='postModel' src='/static/model/PostHoc_gu.png' alt ='model1'>
+		</div>
+		<br>
+		
+		<h4>② 설립년도</h4>
+		<div>
+			<img class='postModel' src='/static/model/PostHoc_completion.png' alt ='model1'>
+		</div>
+		<br>
+		
+		<h4>③ 층</h4>
+		<div>
+			<img class='postModel' src='/static/model/PostHoc_floor.png' alt ='model2'>
+	   	</div>
+	   	<br>
+	   	
+	   	<br>
+	   	
+	   	<h3>3. 상관계수</h3>
+	   	<div class='text'>수치형으로만 이루어진 feature들끼리의 피어슨 상관계수를 통해 상관관계를 확인해보면, 다음과 같은 사실을 알 수 있다.</div>
+	   	<h4>① 특성 중요도</h4>
+	   	<div>
+			<img style='width:700px;' src='/static/model/model3.png' alt ='model3'>
+	   	</div>
+	   	<h4>② hitmap</h4>
+	   	<div>
+			<img src='/static/model/hitmap.png' alt ='hitmap'>
+	   	</div><br>
+		<br>
+		<div class='text'>exclusive_use_area, CCTV ,day_care_babyTeacher_rate, park_area_sum 순으로 상관관계가 있다고할 수 있다.</div><br>
+		<h4>exclusive_use_area 상관계수</h4>
+		<div class='text'>exclusive_use_area는 상관계수가 0.669로 가장 높은 양의 상관관계를 띈다고 볼 수 있다.</div><br>
+		<h4>day_care_babyTeacher_rate 상관계수</h4>
+		<div class='text'>'day_care_babyTeacher_rate' 변수는 0.05로 그리 강하진 않지만, 양의 상관관계를 갖고 있다고 볼 수 있다.</div><br>
+		<h4>park_area_sum 상관계수</h4>
+		<div class='text'>'park_area_sum' 변수는 약 -0.14로 상관관계가 거의 없다고 봐도 무방하다.</div><br>
+	   	<h3>4. ols를 이용한 Mutivariable Linear Regression</h3>
+	   	<div class='text'>model 식 :<br>
+	   	 <pre>- 73.25806 X gu	+ 815.7119 X exclusive_use_area	- 560.3373 X year_of_completion	+ 12.19228 X transaction_year_month	
++ 252.8401 X floor	+ 3098.159 X day_care_babyTeacher_rate	+ 7.553036 X number_of_cctv	- 1390042<br>
+		 </pre>
+		 r_squared 값 :<br> 
+		 이유 : 설명력이 가장 우수하게 산출.<br> 
+		일반적으로 다중회귀분석에서 R<sup>2</sup>의 값이 0.66(66%)보다 높으면 잘 설명하고 있다라고 해석 가능.<br>
+		ols로 모델을 분석해 본 결과, 0.54(54%)정도의 설명력을 가짐.<br>
+		이때 사용한 독립변수들은 모든 변수들을 사용하였으며, 선형회귀분석에서의 중요한 가정을 위배하는 지 확인해보도록 하겠다.<br>
+		 
+		 </div><br>
+	   	<h4>① 선형성 -잔차가 정규성을 만족하는 지 판단</h4>
+	   	<div>
+			<img src='/static/model/선형성.png' alt ='선형성'>
+	   	</div>
+	   	<div class='text'>결과 : 이상치 몇 개를 제외하곤 선형성을 만족한다고 볼 수 있다.</div><br>
+	   	
+	   	<h4>② 정규성 - 변수와 잔차는 정규분포를 따라야함</h4>
+	   	<div>
+			<img src='/static/model/정규성.png' alt ='hitmap'>
+	   	</div>
+	   	<div class='text'>결과 : 시각화된 이미지를 봤을 때, 정규성을 만족한다고 볼 수 있다. 하지만 p-value 값은 1.60e-21이므로 0.05보다 작아 정규성을 만족하지 못한다고 볼 수 있다. 
+이는 왼쪽 하단과 오른쪽 상단의 이상치 때문인 것으로 추측한다.</div><br>
+	   	
+	   	<h4>③ 독립성 - 다중회귀분석에서 중요한 가정이다. 단순회귀 분석에는 해당되지 않으며, 잔차와 독립변수 간에 상관관계가 없이 독립성을 만족하는 가가 중요하다.</h4>
+	   	<div class='text'>Durbin-Watson 검정법을 통해 오차항에 자기상관이 있는 지 없는 지 판단하였다.<br>
+			DW 통계량이 0에 가까울 경우 -> 양의 자기상관<br>
+			DW 통계량이 2에 가까울 경우 -> 자기상관이 없다고 판단<br>
+			DW 통계량이 4에 가까울 경우 -> 음의 자기상관</div><br>
+	   		Durbin-Watson:1.631로 자기상관이 없다고 판단<br>
+	   	<h4>④ 등분산성 - 오차의 분산이 같아야 함. 일정한 분산을 가진 정규분포를 가진다고 가정</h4>
+	   	<div>
+			<img src='/static/model/등분산성.png' alt ='hitmap'>
+	   	</div>
+	   	<div class='text'>추세선이 수평선을 그리지않으므로 등분산성을 만족하지 못한다. 잔차의 분산이 일정하지 못하다.</div><br>
+	   	
+	   	<h4>⑤ 다중공산성 - 독립변수들 간에 상관관계를 확인. </h4>
+	   	<table class='table'>
+	   		<tr>
+	   			<td>변수명</td><td>VIF 분산 팽창요인</td>
+	   		</tr>
+	   		<tr>
+	   			<td>gu</td><td>0.000000</td>
+	   		</tr>
+	   		<tr>
+	   			<td>exclusive_use_area</td><td>4.661656</td>
+	   		</tr>
+	   		<tr>
+	   			<td>year_of_completion</td><td>1.205255</td>
+	   		</tr>
+	   		<tr>
+	   			<td>transaction_year_month</td><td>1.030238</td>
+	   		</tr>
+	   		<tr>
+	   			<td>floor</td><td>1.071141</td>
+	   		</tr>
+	   		<tr>
+	   			<td>park_area_sum</td><td>0.000000</td>
+	   		</tr>
+	   		<tr>
+	   			<td>day_care_babyTeacher_rate</td><td>0.000000</td>
+	   		</tr>
+	   		<tr>
+	   			<td>transaction_real_price</td><td>5.086743</td>
+	   		</tr>
+	   		<tr>
+	   			<td>number_of_cctv</td><td>0.000000</td>
+	   		</tr>
+	   	</table>
+	   	<div class='text'>독립변수들 간에 강한 상관관계 확인<br>
+			VIF(Variance Inflation Factors - 분산 팽창 요인) 값이 10을 넘으면 다중공선성이 발생하는 변수라고 할 수 있다.<br>
+			다중선형회귀분석에서 만약 독립변수가 범주형이라면, 더미변수로 바꿔서 사용하면 된다. <br>
+			현 데이터셋에는 범주형변수가 있지만, 더미변수 처리로 인하여 모두 사용할 수 있게 만들었다.<br> 
+		</div><br>
+	   	
+	  <h3>5. RandomForestRegressor (랜덤포레스트)</h2>
+	  <div class='text'>
+         사용 이유 : Decision Tree가 아닌 RandomForest를 사용한 이유는 overfitting 방지를 할 수 있음으로 사용.<br> 
+         임의의 데이터를 중복을 허용하여 선택함으로써 각각의 트리를 형성.<br>
+         설명력(R<sup>2</sup>) : 
+     </div><br>
 	   	<div>
 			<img src='/static/model/model5.png' alt ='model5'>
 	   	</div>
-	   	<div>
-	-------------실습 1- DecisionTreeRegressor------------<br>
-	결정계수(R2,설명력) :  0.7320665340205426<br>
-	-------------실습 2- RandomForestRegressor------------<br>
-	결정계수(R2,설명력) :  0.9148230003724018<br>
-	-------------- 학습 검정 자료로 분리 ---------------<br>
-	train 설명력 :  0.9101806653534238<br>
-	train 설명력 :  0.8790027615733326<br>
-	예상 집값 :  [20431.91671443 12908.9935312  10760.21510714]<br>
-	   	</div>
-	</div>
 	</div>
 </div>
 </body>

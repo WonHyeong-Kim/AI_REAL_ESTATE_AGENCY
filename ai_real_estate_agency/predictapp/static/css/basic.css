@@ -103,7 +103,7 @@ body {
 .hdMenu {
     width:100%;
     position: absolute;
-    top:40%;
+    top:300px;
     left:50%;
     transform: translateX(-50%);
 }
@@ -124,7 +124,7 @@ body {
 .hdAccount {
     width:100%;
     position: absolute;
-    bottom:10px;
+    top:600px;
     left:50%;
     transform: translateX(-50%);
 }
@@ -177,4 +177,8 @@ body {
 }
 .column{
 	color: #F79318;
+}
+/* 모델 상세페이지 */
+.postModel{
+	width:600px;
 }
