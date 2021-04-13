@@ -17,11 +17,11 @@ cctv['gu'] = gu_list
 cctv.drop(['구분'], axis=1, inplace=True)
 
 # 컬럼 이름 변경
-cctv = cctv.rename(columns={'총계': 'number of cctv'})
+cctv = cctv.rename(columns={'총계': 'cctv_num'})
 
 # 데이터 타입 변경
-cctv['number of cctv'] = cctv['number of cctv'].apply(lambda x: "".join(x.split(',')))
-cctv['number of cctv'] = pd.to_numeric(cctv['number of cctv'])
+cctv['cctv_num'] = cctv['cctv_num'].apply(lambda x: "".join(x.split(',')))
+cctv['cctv_num'] = pd.to_numeric(cctv['cctv_num'])
 
 # 조인
 new_data = pd.merge(train_data, cctv, on='gu', how='left')
