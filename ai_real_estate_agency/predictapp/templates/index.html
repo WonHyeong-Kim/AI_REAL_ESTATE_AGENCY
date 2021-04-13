@@ -18,6 +18,13 @@
 		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	</style>
 	
+	<!-- table용 css -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
 	<!-- font -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	
@@ -43,11 +50,56 @@
 	<div class="contents">
 		<!-- 검색창 -->
 		<div class="search">
-			<h1>home</h1>
 			<input type="text">
 			<input type="submit" value="검색">
 		</div>
-		
+		<!-- 사이트 소개 -->
+		<div class="container">
+			<h2>AI로 보는</h2>
+			<h2>아파트 미래 가격</h2>
+			<p></p>
+			<table class="table table-borderless">
+				<thead>
+					<tr>
+						<th>5년 후 미래 가격</th>
+						<th>진화하는 AI 모델</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>여러가지 변수를 학습한 리치고 AI가 예측하는 5년 후 아파트 미래 가격을 확인하세요.</td>
+						<td>AI 복덕방 팀은 아파트 가격에 영향을 주는 데이터를 지속적으로 발굴하고
+						 최신 기술의 머신러닝과 딥러닝 모델에 학습시키고 있습니다.</td>
+					</tr>
+				</tbody>
+			</table><br><br>
+			<h2>이 아파트,</h2>
+			<h2>지금 사도 괜찮을까?</h2>
+			<p></p>
+			<table class="table table-borderless">
+				<thead>
+					<tr>
+						<th>투자 점수</th>
+						<th>거주 점수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>아파트 가격과 높은 상관성을 보이는 7가지 지표의 과거 흐름과 투자 점수를 바탕으로 리스크를 최대한
+							점검하세요.</td>
+						<td>다양한 거주 지표 기반으로 내 아파트 혹은 고민하시는 아파트가 얼마나 살기 좋은지 평가하세요.</td>
+					</tr>
+				</tbody>
+			</table>
+		<div>
+			<br>
+			<h2>뉴스피드</h2>
+			{% for i in news_datas%}
+				<a href={{i.news_link}}>{{i.news_title}}</a><br>
+			{% endfor %}
+		</div>
+		</div>
+
 	</div>
 </div>
 </body>

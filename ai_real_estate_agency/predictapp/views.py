@@ -5,11 +5,46 @@ import os
 from django.http.response import HttpResponse
 import json
 import numpy as np
-from predictapp.models import Dataset
+from predictapp.models import Dataset,News
 
 # Create your views here.
 def MainFunc(request):
-    return render(request, 'index.html')
+    '''
+    # 네이버 부동산관련 기사 웹크롤링
+    import requests
+    from bs4 import BeautifulSoup
+
+    # 검색 키워드
+    search_word = '부동산'
+
+    # 해당 url의 html문서를 soup 객체로 저장
+    url = f'https://m.search.naver.com/search.naver?where=m_news&sm=mtb_jum&query={search_word}'
+    req = requests.get(url)
+    html = req.text
+    soup = BeautifulSoup(html, 'html.parser')
+    
+    search_result = soup.select_one('#news_result_list')
+    news_links = search_result.select('.bx > .news_wrap > a')
+    
+    for i in news_links:
+        print(i.get_text())
+    for i in news_links:
+        print(i['href'])
+    '''
+    
+    dataset = News.objects.all()
+    #print(len(dataset))
+    
+    news_datas=[]
+    for d in dataset:
+        print(d.news_title)
+        dict ={'news_id':d.news_id, 'news_title':d.news_title, 'news_link':d.news_link}
+        news_datas.append(dict)
+        
+    print(news_datas)
+    
+    
+    return render(request, 'index.html', {'news_datas':news_datas})
     
 def PredictFunc(request):
 #     path = os.getcwd()

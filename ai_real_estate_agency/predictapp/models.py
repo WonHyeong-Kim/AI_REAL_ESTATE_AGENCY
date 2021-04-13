@@ -35,3 +35,12 @@ class Train(models.Model):
     class Meta:
         managed = False
         db_table = 'train'
+        
+class News(models.Model):
+    news_id = models.IntegerField(primary_key=True)
+    news_title = models.TextField()
+    news_link = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'news'
