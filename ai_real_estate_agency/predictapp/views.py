@@ -8,6 +8,9 @@ import numpy as np
 from predictapp.models import Dataset
 
 # Create your views here.
+from ai_real_estate_agency.predictapp.models import Gu
+
+
 def MainFunc(request):
     return render(request, 'index.html')
     
@@ -29,7 +32,7 @@ def PredictFunc(request):
     datas = []
     for d in df:
         print(d.apartment_id)
-        dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr}
+        dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr, 'gu': d.gu}
         datas.append(dict)
         i = i + 1
         if i == 1000:
@@ -122,7 +125,13 @@ def InfoFunc(request):
         floor = int(df['floor'].values)
         transaction_year_month = transaction_year_month/100
         '''
-    return render(request, 'info.html', {'dataset': dataset, 'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
+
+        # 구 평균 거래가
+        gu = request.GET.get('gu')
+        gu_mean_price = Gu.objects.filter(gu=gu).values('gu_mean_price')
+        print(gu_mean_price)
+
+    return render(request, 'info.html', {'gu_mean_price': gu_mean_price,  'dataset': dataset, 'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
 
 def ModelFunc(request):
     '''

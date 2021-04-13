@@ -35,3 +35,16 @@ class Train(models.Model):
     class Meta:
         managed = False
         db_table = 'train'
+
+
+class Gu(models.Model):
+    gu_name = models.TextField(blank=True, null=True)
+    gu_num = models.BigIntegerField(blank=True, null=True)
+    gu_area = models.FloatField(blank=True, null=True)
+    gu_daycare = models.FloatField(blank=True, null=True)
+    gu_cctv = models.BigIntegerField(blank=True, null=True)
+    gu_mean_price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'gu'

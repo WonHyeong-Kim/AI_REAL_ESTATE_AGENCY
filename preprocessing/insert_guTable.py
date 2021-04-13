@@ -61,6 +61,5 @@ try:
 
 except Exception as e:
     print('err : ', e)
-print(train_data.sample(10))
 
 
