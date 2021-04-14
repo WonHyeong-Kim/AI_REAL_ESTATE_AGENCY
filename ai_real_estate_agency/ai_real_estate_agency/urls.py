@@ -25,6 +25,9 @@ urlpatterns = [
     path('predict', views.PredictFunc),
     path('info', views.InfoFunc),
     path('model', views.ModelFunc),
+    path('chart/', views.ChartFunc),
+    path('chart/gu_chart', views.GuChart),
+    path('loading', views.LoadingFunc),
 ]
 # cd C:\work\psou\ai_real_estate_agency
 # python manage.py createsuperuser
