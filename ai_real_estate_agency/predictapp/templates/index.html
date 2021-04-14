@@ -88,21 +88,14 @@
 	
 	<!-- 본문 -->
 	<div class="contents">
-		<!-- 검색창 -->
-		<div class="search">
-			<input type="text">
-			<input type="submit" value="검색">
-		</div>
 		<!-- 사이트 소개 -->
-		<span style="line-height:1000%"><br></span>
-		<div class="container">
-			<h2>AI로 보는</h2>
+ 		<h2 style="margin-top: 30px;">AI로 보는</h2>
 			<h2>아파트 미래 가격</h2>
 			<p></p>
 			<table class="table table-borderless">
 				<thead>
 					<tr>
-						<th style="width: 33%;">5년 후 미래 가격</th>
+						<th style="width: 35%;">5년 후 미래 가격</th>
 						<th>진화하는 AI 모델</th>
 					</tr>
 				</thead>
@@ -114,11 +107,11 @@
 					</tr>
 				</tbody>
 			</table>
-			<span style="line-height:1300%"><br></span>
+			<!-- <span style="line-height:1300%; width:30px;"><br></span> -->
 			<h2>이 아파트,</h2>
 			<h2>지금 사도 괜찮을까?</h2>
 			<p></p>
-			<table class="table table-borderless" style="float: left;width: 70%;">
+			<table class="table table-borderless" style="float: left;width: 68%;">
 				<thead>
 					<tr>
 						<th width="30%">투자 점수</th>
@@ -134,10 +127,8 @@
 				</tbody>
 			</table>
 			<div id="g1" style="float: left;"></div>
-			
-		</div>
 			<div>
-			<h2>뉴스피드</h2>
+				<h2>뉴스피드</h2>
 				{% for i in news_datas%}
 					<a href={{i.news_link}} target="_blank" style="color: #605948">{{i.news_title}}</a><br>
 				{% endfor %}

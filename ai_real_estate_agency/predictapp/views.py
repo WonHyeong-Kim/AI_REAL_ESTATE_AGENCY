@@ -387,3 +387,6 @@ def ListFunc(request):
         data = paginator.page(paginator.num_pages)
 
     return render(request, 'info.html', {'data': data})
+
+def LoadingFunc(request):
+    return render(request, 'loading.html')
