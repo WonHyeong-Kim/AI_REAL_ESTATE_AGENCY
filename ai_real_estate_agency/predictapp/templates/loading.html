@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<!-- cross browsing 방지 -->
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<style>
+	</style>
+	
+	<!-- font -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<!-- java script -->
+	<script src='/static/js/jquery-1.12.4.min.js'></script>
+	<script src='/static/js/main.js'></script>
+	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+<style>
+	.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+<script type="text/javascript">
+	var _showPage = function() {
+		var loader = $("div.loader");
+		var container = $("div.container");
+		loader.css("display","none");
+		container.css("display","block");
+	};
+	$(document).ready(function(){
+		setTimeout(function(){
+			console.log('a');
+			location.href='/predict';
+		}, 5000);
+		console.log('b');
+	});
+</script>
+</head>
+<body>
+<!-- 디자인용 -->
+<div class="containerBg"></div>
+<!-- 전체 -->
+<div class="container">
+	{% block header %}
+		{% include "left.html"%}
+	{% endblock %}
+	
+	<!-- 본문 -->
+	<div class="contents">
+		<div class="loader">
+		</div>
+	
+		<div class="container" style="display:none;">
+		  <h1>로딩 후 화면</h1>
+		</div>
+	</div>
+</div>
+</body>
+</html>

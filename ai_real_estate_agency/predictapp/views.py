@@ -6,7 +6,7 @@ import os
 from django.http.response import HttpResponse
 import json
 import numpy as np
-from predictapp.models import Dataset,News, Train
+from predictapp.models import Dataset, News, Train
 
 from predictapp.models import Dataset, News, Gu, Train
 
@@ -50,68 +50,71 @@ def MainFunc(request):
 
 
 def ChartFunc(request):
-    
     return render(request, 'chart.html')
 
+
 def GuChart(request):
-    #데이터 로드
-    dataset = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/train_add_cctv.csv')
+    # 데이터 로드
+    dataset = pd.read_csv(
+        'https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/train_add_cctv.csv')
     response = {}
-    #숫자로 매핑되어 있는 구 정보를 다시 구 이름으로 변환
-    gu = {'용산구': 0, '양천구': 1, '강동구': 2, '관악구': 3, '노원구': 4, '영등포구': 5, '마포구': 6, '서초구': 7, '성동구': 8, '금천구': 9, '도봉구': 10, '동작구': 11, '강서구': 12, '동대문구': 13, '강북구': 14, '서대문구': 15, '광진구': 16, '구로구': 17, '성북구': 18, '강남구': 19, '종로구': 20, '중구': 21, '중랑구': 22, '송파구': 23, '은평구': 24}
-    
+    # 숫자로 매핑되어 있는 구 정보를 다시 구 이름으로 변환
+    gu = {'용산구': 0, '양천구': 1, '강동구': 2, '관악구': 3, '노원구': 4, '영등포구': 5, '마포구': 6, '서초구': 7, '성동구': 8, '금천구': 9,
+          '도봉구': 10, '동작구': 11, '강서구': 12, '동대문구': 13, '강북구': 14, '서대문구': 15, '광진구': 16, '구로구': 17, '성북구': 18,
+          '강남구': 19, '종로구': 20, '중구': 21, '중랑구': 22, '송파구': 23, '은평구': 24}
+
     gu_name = {}
     for k, v in gu.items():
         gu_name[v] = k
-    
+
     dataset['gu'] = dataset['gu'].map(gu_name)
-    #print(dataset['gu'])
-    
-    #구별 CCTV 추이
+    # print(dataset['gu'])
+
+    # 구별 CCTV 추이
     cctv_data = dataset.groupby('gu')['cctv_num'].mean()
-    #print(cctv_data)
-    #print(list(cctv_data.values))
+    # print(cctv_data)
+    # print(list(cctv_data.values))
     response['gu_name'] = list(cctv_data.index)
     response['cctv'] = list(map(str, cctv_data.values))
-    
-    #구별 교육지수 평균 추이
+
+    # 구별 교육지수 평균 추이
     edu_data = Train.objects.all()
-    #print(len(edu_data))
-    
+    # print(len(edu_data))
+
     edu_gu = []
     edu_rate = []
-    
+
     for a in edu_data:
         edu_gu.append(a.gu)
         edu_rate.append(a.day_care_babyteacher_rate)
-    
-    #print(len(edu_gu))
+
+    # print(len(edu_gu))
     edu_data = pd.DataFrame()
     edu_data['gu_name'] = edu_gu
     edu_data['edu_rate'] = edu_rate
-    
+
     edu_data = edu_data.groupby('gu_name')['edu_rate'].mean()
     response['edu_rate'] = list(map(str, edu_data.values))
-    
-    
-    #클라이언트로부터 구 이름 정보를 받고 해당하는 구별 데이터 추출
+
+    # 클라이언트로부터 구 이름 정보를 받고 해당하는 구별 데이터 추출
     dataset = dataset.loc[dataset['gu'] == request.GET.get("gu")]
-    #print(dataset[['gu', 'floor']])
-    
-    #구별 거래년월별 거래액 평균
+    # print(dataset[['gu', 'floor']])
+
+    # 구별 거래년월별 거래액 평균
     transaction_data = dataset.groupby('transaction_year_month')['transaction_real_price'].mean()
-    #print(data)
-    
-    #데이터를 json형식으로 보내기
+    # print(data)
+
+    # 데이터를 json형식으로 보내기
     response['date'] = list(transaction_data.index)
     response['price'] = list(transaction_data.values)
-    
-    #print(response)
-    
-    return HttpResponse(json.dumps(response), content_type = 'application/json')
+
+    # print(response)
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
 def PredictFunc(request):
     pd.set_option('display.max_columns', None)
-
     df = Dataset.objects.all()
 
     i = 0
@@ -148,7 +151,6 @@ def InfoFunc(request):
         except EmptyPage:
             dataset = paginator.page(paginator.num_pages)
 
-
         for idx, d in enumerate(dataset):
             apt = d.apt
             addr_kr = d.addr_kr
@@ -162,8 +164,7 @@ def InfoFunc(request):
 
             transaction_year_month = d.transaction_year_month / 100
 
-
-        last_transaction = train[len(train)-1].transaction_year_month
+        last_transaction = train[len(train) - 1].transaction_year_month
         last_transaction_price_sum = 0
         last_transaction_area_sum = 0
         cont = 0
@@ -189,17 +190,18 @@ def InfoFunc(request):
         '''최근 해당 단지 평당 평균 거래액'''
         avgcost_per_pyeong = maxdate_avgcost / last_transaction_area_sum
 
-
         '''평균 거래액(구별)'''
         gu_data = Gu.objects.get(gu_num=train[0].gu)
 
-    return render(request, 'info.html', {'apartment_id': apt_id, 'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
-                                         'apt': apt, 'addr_kr': addr_kr, 'city': city, 'area': area, 'area_pyeong': area_pyeong, 'transaction_year_month': transaction_year_month,
-                                         'floor': floor, 'parksum': parksum, 'bteacherrate': bteacherrate,
-                                         'year_of_completion': year_of_completion,
-                                         'maxdate_avgcost': round(maxdate_avgcost),
-                                         'avgcost_per_pyeong': format(avgcost_per_pyeong, ".1f"),
-                                         'gu_cctv': gu_data.gu_cctv})
+    return render(request, 'info.html',
+                  {'apartment_id': apt_id, 'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
+                   'apt': apt, 'addr_kr': addr_kr, 'city': city, 'area': area, 'area_pyeong': area_pyeong,
+                   'transaction_year_month': transaction_year_month,
+                   'floor': floor, 'parksum': parksum, 'bteacherrate': bteacherrate,
+                   'year_of_completion': year_of_completion,
+                   'maxdate_avgcost': round(maxdate_avgcost),
+                   'avgcost_per_pyeong': format(avgcost_per_pyeong, ".1f"),
+                   'gu_cctv': gu_data.gu_cctv})
 
 
 def ModelFunc(request):
@@ -371,19 +373,25 @@ def ModelFunc(request):
     print('설명력 : ',r2_score(y_test, model.predict(x_test))) #설명력 :  0.76281
     '''
     return render(request, 'model.html')
+
+
 # def model():
 
+# 
+# def ListFunc(request):
+#     dataset = Dataset.objects.filter(apartment_id=apt_id)
+#     paginator = Paginator(dataset, 5)
+#     page = request.GET.get('page')
+# 
+#     try:
+#         data = paginator.page(page)
+#     except PageNotAnInteger:
+#         data = paginator.page(1)
+#     except EmptyPage:
+#         data = paginator.page(paginator.num_pages)
+# 
+#     return render(request, 'info.html', {'data': data})
 
-def ListFunc(request):
-    dataset = Dataset.objects.filter(apartment_id=apt_id)
-    paginator = Paginator(dataset, 5)
-    page = request.GET.get('page')
 
-    try:
-        data = paginator.page(page)
-    except PageNotAnInteger:
-        data = paginator.page(1)
-    except EmptyPage:
-        data = paginator.page(paginator.num_pages)
-
-    return render(request, 'info.html', {'data': data})
+def LoadingFunc(request):
+    return render(request, 'loading.html')
