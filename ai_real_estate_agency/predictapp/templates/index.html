@@ -16,6 +16,7 @@
 		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
 		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		h2{color: #f79318;}
 	</style>
 	
 	<!-- table용 css -->
@@ -35,6 +36,45 @@
 	<!-- api 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ede96e94d2d9a187882ea735ac4f1e84&libraries=services,clusterer,drawing"></script>
 	
+	<!-- 투자점수 그래픽 -->
+	<style>
+      #g1 {
+        width:250px; height:210px;
+        display: inline-block;
+        margin: 1em;
+      }
+      p {
+        display: block;
+        width: 275px;
+        margin: 2em auto;
+        text-align: left;
+      }
+    </style>
+    
+    <script src="/static/js/raphael.2.1.0.min.js"></script>
+    <script src="/static/js/justgage.1.0.1.min.js"></script>
+    <script>
+      var g1;
+      window.onload = function(){
+        var g1 = new JustGage({
+            id: "g1", 
+            value: getRandomInt(60, 100), 
+            min: 0,
+            max: 100,
+            title: "투자 점수",
+            label: "좋음",  
+            levelColors: [
+              "#d52e0b",
+              "#fded26",
+              "#5ec51f"
+            ]          
+          });
+      
+        setInterval(function() {
+          g1.refresh(getRandomInt(50, 100));
+        }, 1500);
+      };
+    </script>
 </head>
 
 <body>
@@ -54,6 +94,7 @@
 			<input type="submit" value="검색">
 		</div>
 		<!-- 사이트 소개 -->
+		<span style="line-height:1000%"><br></span>
 		<div class="container">
 			<h2>AI로 보는</h2>
 			<h2>아파트 미래 가격</h2>
@@ -61,7 +102,7 @@
 			<table class="table table-borderless">
 				<thead>
 					<tr>
-						<th>5년 후 미래 가격</th>
+						<th style="width: 33%;">5년 후 미래 가격</th>
 						<th>진화하는 AI 모델</th>
 					</tr>
 				</thead>
@@ -72,15 +113,16 @@
 						 최신 기술의 머신러닝과 딥러닝 모델에 학습시키고 있습니다.</td>
 					</tr>
 				</tbody>
-			</table><br><br>
+			</table>
+			<span style="line-height:1300%"><br></span>
 			<h2>이 아파트,</h2>
 			<h2>지금 사도 괜찮을까?</h2>
 			<p></p>
-			<table class="table table-borderless">
+			<table class="table table-borderless" style="float: left;width: 70%;">
 				<thead>
 					<tr>
-						<th>투자 점수</th>
-						<th>거주 점수</th>
+						<th width="30%">투자 점수</th>
+						<th width="30%">거주 점수</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -91,15 +133,15 @@
 					</tr>
 				</tbody>
 			</table>
-		<div>
-			<br>
+			<div id="g1" style="float: left;"></div>
+			
+		</div>
+			<div>
 			<h2>뉴스피드</h2>
-			{% for i in news_datas%}
-				<a href={{i.news_link}}>{{i.news_title}}</a><br>
-			{% endfor %}
-		</div>
-		</div>
-
+				{% for i in news_datas%}
+					<a href={{i.news_link}} target="_blank" style="color: #605948">{{i.news_title}}</a><br>
+				{% endfor %}
+			</div>
 	</div>
 </div>
 </body>
