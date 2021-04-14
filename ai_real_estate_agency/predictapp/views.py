@@ -377,20 +377,20 @@ def ModelFunc(request):
 
 # def model():
 
-
-def ListFunc(request):
-    dataset = Dataset.objects.filter(apartment_id=apt_id)
-    paginator = Paginator(dataset, 5)
-    page = request.GET.get('page')
-
-    try:
-        data = paginator.page(page)
-    except PageNotAnInteger:
-        data = paginator.page(1)
-    except EmptyPage:
-        data = paginator.page(paginator.num_pages)
-
-    return render(request, 'info.html', {'data': data})
+# 
+# def ListFunc(request):
+#     dataset = Dataset.objects.filter(apartment_id=apt_id)
+#     paginator = Paginator(dataset, 5)
+#     page = request.GET.get('page')
+# 
+#     try:
+#         data = paginator.page(page)
+#     except PageNotAnInteger:
+#         data = paginator.page(1)
+#     except EmptyPage:
+#         data = paginator.page(paginator.num_pages)
+# 
+#     return render(request, 'info.html', {'data': data})
 
 
 def LoadingFunc(request):
