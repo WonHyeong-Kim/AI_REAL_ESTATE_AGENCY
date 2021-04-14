@@ -1,13 +1,7 @@
 import pandas as pd
 import pymysql
-from sqlalchemy import create_engine
 pymysql.install_as_MySQLdb()
 
-'''
-k-remap을 전처리해서 넣기
-근데 이거는 시간순으로 되어 있음.  
-
-'''
 
 k_remap_origin = pd.read_csv("/Users/jk/git/acornTeam1_project2/preprocessing/dataset/k_remap_origin.csv")
 
