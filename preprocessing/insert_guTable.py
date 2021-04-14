@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 pymysql.install_as_MySQLdb()
 
 
-train_data = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/train_add_cctv.csv')
+train_data = pd.read_csv('./dataset/train_add_cctv.csv')
 gu_dict_num = {'용산구': 0, '양천구': 1, '강동구': 2, '관악구': 3, '노원구': 4, '영등포': 5, '영등포구': 5, '마포구': 6, '서초구': 7, '성동구': 8, '금천구': 9, '도봉구': 10, '동작구': 11, '강서구': 12, '동대문': 13, '동대문구': 13, '강북구': 14, '서대문': 15, '서대문구': 15, '광진구': 16, '구로구': 17, '성북구': 18, '강남구': 19, '종로구': 20, '중구': 21, '중랑구': 22, '송파구': 23, '은평구': 24}
 
 # 구 매핑, 구별 평균, 구별 공원, 구별 cctv
@@ -22,7 +22,7 @@ for idx, data in train_data.iterrows():
     # 방문하지 않았으면 chk[gu] = True
     if chk[gu]:
         gu_area[gu] = data['park_area_sum']
-        gu_cctv[gu] = int(data['number of cctv'])
+        gu_cctv[gu] = int(data['cctv_num'])
         gu_daycare[gu] = data['day_care_babyTeacher_rate']
         chk[gu] = False
 
@@ -61,6 +61,5 @@ try:
 
 except Exception as e:
     print('err : ', e)
-print(train_data.sample(10))
 
 

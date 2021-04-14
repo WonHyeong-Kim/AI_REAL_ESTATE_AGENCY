@@ -86,12 +86,11 @@
 					address[1] = data[i][key]
 					console.log(data[i][key]);
 				}
-				if(key === 'apartment_id'){
+				if(key === 'apartment_id') {
 					address[2] = data[i][key]
 					//apartment_id = data[i][key]
 					//console.log(data[i][key]);
 				}
-
 			}
 			// 주소로 좌표를 검색합니다
 			geocoder.addressSearch(address[0], function(result, status) {

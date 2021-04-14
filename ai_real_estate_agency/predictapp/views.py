@@ -1,13 +1,15 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 import pandas as pd
 import os
-#from predictapp.models import Test
+# from predictapp.models import Test
 from django.http.response import HttpResponse
 import json
 import numpy as np
-from predictapp.models import Dataset,News
 
-# Create your views here.
+from predictapp.models import Dataset, News, Gu, Train
+
+
 def MainFunc(request):
     '''
     # 네이버 부동산관련 기사 웹크롤링
@@ -31,133 +33,113 @@ def MainFunc(request):
     for i in news_links:
         print(i['href'])
     '''
-    
+
     dataset = News.objects.all()
-    #print(len(dataset))
-    
-    news_datas=[]
+    # print(len(dataset))
+
+    news_datas = []
     for d in dataset:
-        print(d.news_title)
-        dict ={'news_id':d.news_id, 'news_title':d.news_title, 'news_link':d.news_link}
+        # print(d.news_title)
+        dict = {'news_id': d.news_id, 'news_title': d.news_title, 'news_link': d.news_link}
         news_datas.append(dict)
-        
-    print(news_datas)
-    
-    
-    return render(request, 'index.html', {'news_datas':news_datas})
-    
+
+    # print(news_datas)
+
+    return render(request, 'index.html', {'news_datas': news_datas})
+
+
 def PredictFunc(request):
-#     path = os.getcwd()
-    #print(os.getcwd())
     pd.set_option('display.max_columns', None)
-    #day_care_center_df = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/PYTHON/main/day_care_center.csv')
-    #print(day_care_center_df)
-    
-    #park_df = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/PYTHON/main/park.csv')
-    #print(park_df)
-    #df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
+
     df = Dataset.objects.all()
-    print(len(df))
-    print(df)
-    print(type(df))
+
     i = 0
     datas = []
+    chk = []
     for d in df:
-        print(d.apartment_id)
-        dict ={'apartment_id':d.apartment_id, 'apt':d.apt, 'addr_kr':d.addr_kr}
-        datas.append(dict)
-        i = i + 1
-        if i == 1000:
-            break
-    #print(df)
-    #print(len(df))
-    print(datas)
-    '''
-    datas = []
-    for i in range(100):
-    #for i in range(len(test_df)):
-        print(i)
-        transaction_id = test_df.loc[i].transaction_id;
-        apartment_id   = test_df.loc[i].apartment_id;
-        city = test_df.loc[i].city;
-        dong = test_df.loc[i].dong;
-        jibun = test_df.loc[i].jibun;
-        apt = test_df.loc[i].apt;
-        addr_kr = test_df.loc[i].addr_kr;
-        exclusive_use_area = test_df.loc[i].exclusive_use_area;
-        year_of_completion = test_df.loc[i].year_of_completion;
-        transaction_year_month = test_df.loc[i].transaction_year_month;
-        transaction_date = test_df.loc[i].transaction_date;
-        floor = test_df.loc[i].floor;
-        dict={'transaction_id':transaction_id,
-              'apartment_id':apartment_id,
-              'city':city,
-              'dong':dong,
-              'jibun':jibun,
-              'apt':apt,
-              'addr_kr':addr_kr,
-              'exclusive_use_area':exclusive_use_area,
-              'year_of_completion':year_of_completion,
-              'transaction_year_month':transaction_year_month,
-              'transaction_date':transaction_date,
-              'floor':floor
-              }
-        datas.append(dict)
-#         Test(
-#              transaction_id = test_df.loc[i].transaction_id,
-#              apartment_id   = test_df.loc[i].apartment_id,
-#              city = test_df.loc[i].city,
-#              dong = test_df.loc[i].dong,
-#              jibun = test_df.loc[i].jibun,
-#              apt = test_df.loc[i].apt,
-#              addr_kr = test_df.loc[i].addr_kr,
-#              exclusive_use_area = test_df.loc[i].exclusive_use_area,
-#              year_of_completion = test_df.loc[i].year_of_completion,
-#              transaction_year_month = test_df.loc[i].transaction_year_month,
-#              transaction_date = test_df.loc[i].transaction_date,
-#              floor = test_df.loc[i].floor
-#              ).save()
-    print(datas)
-    '''
-    #return HttpResponse(json.dumps(datas), content_type='application/json')
-    #return render(request, 'predict.html')
-    return render(request, 'predict.html', {'datas':datas})
+        if d.apartment_id not in chk:
+            dict = {'apartment_id': d.apartment_id, 'apt': d.apt, 'addr_kr': d.addr_kr}
+            datas.append(dict)
+            chk.append(d.apartment_id)
+            i = i + 1
+            if i == 1000:
+                break
+
+    # print(datas)
+    return render(request, 'predict.html', {'datas': datas})
+
 
 def InfoFunc(request):
     if request.method == 'GET':
         pd.set_option('display.max_columns', None)
         apt_id = request.GET.get('apartment_id')
-        print(apt_id)
-        dataset = Dataset.objects.filter(apartment_id = apt_id)
-        # apartment_id로 DB의 정보 조회
-        #path = os.getcwd()
-        #test_df = pd.read_csv(path+'/ai_real_estate_agency/predictapp/static/dataset/test.csv')
-        #print(test_df)
-        #print(test_df.info())
-        #print(test_df.loc[apt_id, ['apartment_id']])
-        #print(test_df.apartment_id == apt_id)
-        #df = test_df[test_df.apartment_id == apt_id]
-        #print(d)
-        for d in dataset:
+        datasets = Dataset.objects.filter(apartment_id=apt_id)
+        train = Train.objects.filter(apartment_id=apt_id)
+
+        # 데이터 페이징 처리
+        paginator = Paginator(datasets, 5)
+        page = request.GET.get('page')
+
+        try:
+            dataset = paginator.page(page)
+        except PageNotAnInteger:
+            dataset = paginator.page(1)
+        except EmptyPage:
+            dataset = paginator.page(paginator.num_pages)
+
+
+        for idx, d in enumerate(dataset):
             apt = d.apt
             addr_kr = d.addr_kr
             city = d.city
             area = float(d.exclusive_use_area)
-            area_pyeong = np.floor(area/ 3.305785 * 100)/100
+
+            area_pyeong = np.floor(area / 3.305785 * 100) / 100
+            dataset[idx].exclusive_use_area = np.round(d.exclusive_use_area, 2)
             transaction_year_month = d.transaction_year_month
             floor = int(d.floor)
-            transaction_year_month = d.transaction_year_month/100
-        '''
-        apt = str(df['apt'].values)[2:-2]
-        addr_kr = str(df['addr_kr'].values)[2:-2]
-        city = str(df['city'].values)[2:-2]
-        area = float(df['exclusive_use_area'].values)
-        area_pyeong = np.floor(area/ 3.305785 * 100)/100
-        transaction_year_month = int(df['transaction_year_month'].values)
-        floor = int(df['floor'].values)
-        transaction_year_month = transaction_year_month/100
-        '''
-    return render(request, 'info.html', {'dataset': dataset, 'apt':apt, 'addr_kr':addr_kr, 'city':city, 'area':area, 'area_pyeong':area_pyeong, 'transaction_year_month':transaction_year_month, 'floor':floor})
+
+            transaction_year_month = d.transaction_year_month / 100
+
+
+        last_transaction = train[len(train)-1].transaction_year_month
+        last_transaction_price_sum = 0
+        last_transaction_area_sum = 0
+        cont = 0
+        for t in train:
+            parksum = t.park_area_sum  # 해당 구 공원면적
+            bteacherrate = t.day_care_babyteacher_rate  # 해당 구 아기 대비 유치원교사 비율
+            area = float(t.exclusive_use_area)
+            area_pyeong = np.floor(area / 3.305785 * 100) / 100  # 평수
+            year_of_completion = t.year_of_completion  # 완공연도
+            # CCTV 수
+
+            '''해당지역 최근 거래내역 : 거래액'''
+            # print(t.transaction_real_price)
+            # print(t.transaction_year_month)
+            # print(type(t.transaction_year_month))
+            if t.transaction_year_month == last_transaction:
+                cont += 1
+                last_transaction_price_sum += t.transaction_real_price
+                last_transaction_area_sum += area_pyeong
+
+        maxdate_avgcost = last_transaction_price_sum / cont
+
+        '''최근 해당 단지 평당 평균 거래액'''
+        avgcost_per_pyeong = maxdate_avgcost / last_transaction_area_sum
+
+
+        '''평균 거래액(구별)'''
+        gu_data = Gu.objects.get(gu_num=train[0].gu)
+
+    return render(request, 'info.html', {'apartment_id': apt_id, 'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
+                                         'apt': apt, 'addr_kr': addr_kr, 'city': city, 'area': area, 'area_pyeong': area_pyeong, 'transaction_year_month': transaction_year_month,
+                                         'floor': floor, 'parksum': parksum, 'bteacherrate': bteacherrate,
+                                         'year_of_completion': year_of_completion,
+                                         'maxdate_avgcost': round(maxdate_avgcost),
+                                         'avgcost_per_pyeong': format(avgcost_per_pyeong, ".1f"),
+                                         'gu_cctv': gu_data.gu_cctv})
+
 
 def ModelFunc(request):
     '''
@@ -328,5 +310,19 @@ def ModelFunc(request):
     print('설명력 : ',r2_score(y_test, model.predict(x_test))) #설명력 :  0.76281
     '''
     return render(request, 'model.html')
-#def model():
-    
+# def model():
+
+
+def ListFunc(request):
+    dataset = Dataset.objects.filter(apartment_id=apt_id)
+    paginator = Paginator(dataset, 5)
+    page = request.GET.get('page')
+
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, 'info.html', {'data': data})

@@ -2,8 +2,8 @@
 from django.db import models
 
 class Dataset(models.Model):
-    transaction_id = models.BigIntegerField(blank=True, null=True)
-    apartment_id = models.BigIntegerField(blank=True, primary_key = True)
+    transaction_id = models.BigIntegerField(primary_key=True)
+    apartment_id = models.BigIntegerField(blank=True, null=True)
     city = models.TextField(blank=True, null=True)
     dong = models.TextField(blank=True, null=True)
     jibun = models.TextField(blank=True, null=True)
@@ -20,7 +20,22 @@ class Dataset(models.Model):
         managed = False
         db_table = 'dataset'
 
+
+class Gu(models.Model):
+    gu_name = models.CharField(primary_key=True, max_length=30)
+    gu_num = models.BigIntegerField(blank=True, null=True)
+    gu_area = models.FloatField(blank=True, null=True)
+    gu_daycare = models.FloatField(blank=True, null=True)
+    gu_cctv = models.BigIntegerField(blank=True, null=True)
+    gu_mean_price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'gu'
+
+
 class Train(models.Model):
+    transaction_id = models.BigIntegerField(primary_key=True)
     apartment_id = models.BigIntegerField(blank=True, null=True)
     gu = models.BigIntegerField(blank=True, null=True)
     exclusive_use_area = models.FloatField(blank=True, null=True)
@@ -31,11 +46,13 @@ class Train(models.Model):
     park_area_sum = models.FloatField(blank=True, null=True)
     day_care_babyteacher_rate = models.FloatField(db_column='day_care_babyTeacher_rate', blank=True, null=True)  # Field name made lowercase.
     transaction_real_price = models.BigIntegerField(blank=True, null=True)
+    cctv_num = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'train'
-        
+
+
 class News(models.Model):
     news_id = models.IntegerField(primary_key=True)
     news_title = models.TextField()
@@ -44,3 +61,4 @@ class News(models.Model):
     class Meta:
         managed = False
         db_table = 'news'
+
