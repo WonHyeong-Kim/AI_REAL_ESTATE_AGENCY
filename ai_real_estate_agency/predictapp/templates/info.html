@@ -11,6 +11,7 @@
 	<!-- css -->
 	<link href='/static/css/basic.css' rel='stylesheet'>
 	<style>
+	h2{color: #f79318;}
 	</style>
 	
 	<!-- font -->
@@ -20,6 +21,43 @@
 	<script src='/static/js/jquery-1.12.4.min.js'></script>
 	<script src='/static/js/main.js'></script>
 	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+	
+	<!-- slider 집 값 예측 -->
+	<style>
+	.slider {
+    -webkit-appearance: none;
+    width: 400px;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+	}
+	
+	.slider:hover {
+	    opacity: 1;
+	}
+	
+	.slider::-webkit-slider-thumb {
+	    -webkit-appearance: none;
+	    appearance: none;
+	    width: 25px;
+	    height: 25px;
+	    border-radius: 50%;
+	    background: #f79318;
+	    cursor: pointer;
+	}
+	
+	.slider::-moz-range-thumb {
+	    width: 25px;
+	    height: 25px;
+	    border-radius: 50%;
+	    background: #4CAF50;
+	    cursor: pointer;
+	}
+</style>
 </head>
 <body>
 <!-- 디자인용 -->
@@ -113,6 +151,46 @@
 				{% endif %}
 			</table>
 		</div>
+		<br><br><br>
+		
+		<!-- slider 집 값 예측 -->
+		<h2>해당 아파트 미래 집 값 예측하기</h2><br>
+		<div id="slidecontainer">
+		  <input type="range" min="0" max="3" value="3" class="slider" id="myRange">
+		  <p> <span id="demo"></span></p>
+		</div>
+		<script>
+		var steps = [
+		    "1년 후",
+		    "3년 후",
+		    "5년 후",
+		    "10년 후"
+		];
+		var slider = document.getElementById("myRange");
+		var output = document.getElementById("demo");
+		output.innerHTML = steps[slider.value]; // Display the default slider value
+		
+		// Update the current slider value (each time you drag the slider handle)
+		slider.oninput = function() {
+		    output.innerHTML = steps[this.value];
+		
+			var value = steps[slider.value];
+			var year;
+			if(value == "1년 후"){
+	            year = 1;
+	            //alert(year);
+	            output.innerHTML += " 예상 집 값은000원 입니다.";
+	        } else if(value == "3년 후"){
+	        	year = 3;
+	        } else if(value == "5년 후"){
+	        	year = 5;
+	        } else {
+	        	year = 10;
+	        } 
+		
+		}
+		
+		</script>
 	</div>
 </div>
 </body>
