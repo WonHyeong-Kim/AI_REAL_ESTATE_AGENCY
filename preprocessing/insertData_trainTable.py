@@ -24,7 +24,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 # 데이터 로드
-dataset_train = pd.read_csv('./dataset/train_add_cctv.csv')
+dataset_train = pd.read_csv('./dataset/train_add_kremap.csv')
 dataset = pd.read_csv('./dataset_pre/train.csv')
 
 try:

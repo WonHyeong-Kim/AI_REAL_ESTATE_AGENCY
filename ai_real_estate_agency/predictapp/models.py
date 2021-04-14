@@ -47,6 +47,7 @@ class Train(models.Model):
     day_care_babyteacher_rate = models.FloatField(db_column='day_care_babyTeacher_rate', blank=True, null=True)  # Field name made lowercase.
     transaction_real_price = models.BigIntegerField(blank=True, null=True)
     cctv_num = models.BigIntegerField(blank=True, null=True)
+    k_remap = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
