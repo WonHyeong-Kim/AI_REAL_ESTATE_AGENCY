@@ -21,7 +21,7 @@ class Dataset(models.Model):
         db_table = 'dataset'
 
 class Train(models.Model):
-    apartment_id = models.BigIntegerField(blank=True, null=True)
+    apartment_id = models.BigIntegerField(blank=True, primary_key = True)
     gu = models.BigIntegerField(blank=True, null=True)
     exclusive_use_area = models.FloatField(blank=True, null=True)
     year_of_completion = models.BigIntegerField(blank=True, null=True)
