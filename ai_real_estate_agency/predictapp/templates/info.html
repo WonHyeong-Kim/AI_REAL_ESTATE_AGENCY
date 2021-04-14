@@ -10,10 +10,6 @@
 	
 	<!-- css -->
 	<link href='/static/css/basic.css' rel='stylesheet'>
-	<style>
-	h2{color: #f79318;}
-	</style>
-	
 	<!-- font -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	
@@ -24,40 +20,113 @@
 	
 	<!-- slider 집 값 예측 -->
 	<style>
-	.slider {
-    -webkit-appearance: none;
-    width: 400px;
-    height: 15px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-	}
+	h2{color: #f79318;}
+		/* slider bar */
+		/*
+		#slidecontainer {
+		    width: 100%;
+		}
+		*/
+		
+		.slider {
+		    -webkit-appearance: none;
+    		width: 400px;
+		    height: 15px;
+		    border-radius: 5px;
+		    background: #d3d3d3;
+		    outline: none;
+		    opacity: 0.7;
+		    -webkit-transition: .2s;
+		    transition: opacity .2s;
+		}
+		
+		.slider:hover {
+		    opacity: 1;
+		}
+		
+		.slider::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		    appearance: none;
+		    width: 25px;
+		    height: 25px;
+		    border-radius: 50%;
+	    	background: #f79318;
+		    cursor: pointer;
+		}
+		
+		.slider::-moz-range-thumb {
+		    width: 25px;
+		    height: 25px;
+		    border-radius: 50%;
+		    background: #4CAF50;
+		    cursor: pointer;
+		}
+	</style>
 	
-	.slider:hover {
-	    opacity: 1;
-	}
-	
-	.slider::-webkit-slider-thumb {
-	    -webkit-appearance: none;
-	    appearance: none;
-	    width: 25px;
-	    height: 25px;
-	    border-radius: 50%;
-	    background: #f79318;
-	    cursor: pointer;
-	}
-	
-	.slider::-moz-range-thumb {
-	    width: 25px;
-	    height: 25px;
-	    border-radius: 50%;
-	    background: #4CAF50;
-	    cursor: pointer;
-	}
-</style>
+	<!-- slider bar -->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#pricePredict").click(function(){
+			//console.log(year);
+			let apartment_id = "{{ apartment_id }}";
+			let gu = "{{ gu }}";
+			let exclusive_use_area = "{{ area }}";
+			let year_of_completion = "{{ year_of_completion }}";
+			let floor = "{{ floor }}";
+			let park_area_sum = "{{ parksum }}";
+			let day_care_babyTeacher_rate = "{{ bteacherrate }}";
+			let cctv_num = "{{ gu_cctv }}";
+			
+			$(".message").text("예측중");
+			$.ajax({
+				url:"/predict/featurePrice",
+				type:"get",
+				//data:{"year":year},
+				data:{"year":year, "apartment_id":apartment_id, "gu":gu, "exclusive_use_area":exclusive_use_area, "year_of_completion":year_of_completion, "floor":floor, "park_area_sum":park_area_sum, "day_care_babyTeacher_rate":day_care_babyTeacher_rate, "cctv_num":cctv_num},
+				datatype:'json',
+				success:function(data){
+					$(".message").empty();
+					console.log(data);
+					let featurePrice = data[0]['featurePrice'];
+					//console.log(featurePrice)
+					//$(".message").text(featurePrice+"원");
+					output.innerHTML = year + "년 후 예상 집 값은 "+featurePrice+"원 입니다.";
+					
+				},
+				error:function(){
+					$(".message").text("error");
+				},
+			});
+		});
+		
+		var steps = [
+		    "1년 후",
+		    "3년 후",
+		    "5년 후",
+		    "10년 후"
+		];
+		var slider = document.getElementById("myRange");
+		var output = document.getElementById("demo");
+		year = 10;
+		output.innerHTML = steps[slider.value]; // Display the default slider value
+		
+		// Update the current slider value (each time you drag the slider handle)
+		slider.oninput = function() {
+		    output.innerHTML = steps[this.value];
+		
+			value = steps[slider.value];
+			if(value == "1년 후"){
+	            year = 1;
+	        } else if(value == "3년 후"){
+	        	year = 3;
+	        } else if(value == "5년 후"){
+	        	year = 5;
+	        } else {
+	        	year = 10;
+	        } 
+		}
+	});
+	</script>
 </head>
 <body>
 <!-- 디자인용 -->
@@ -75,7 +144,7 @@
 		</div>
 		
 		<div class='cityName'>
-			{{city}}  {{addr_kr}}
+			{{city}} {{gu}}  {{addr_kr}}
 		</div>
 		<hr>
 		<div class='area'>
@@ -152,45 +221,15 @@
 			</table>
 		</div>
 		<br><br><br>
-		
+		<hr>
 		<!-- slider 집 값 예측 -->
 		<h2>해당 아파트 미래 집 값 예측하기</h2><br>
 		<div id="slidecontainer">
 		  <input type="range" min="0" max="3" value="3" class="slider" id="myRange">
 		  <p> <span id="demo"></span></p>
 		</div>
-		<script>
-		var steps = [
-		    "1년 후",
-		    "3년 후",
-		    "5년 후",
-		    "10년 후"
-		];
-		var slider = document.getElementById("myRange");
-		var output = document.getElementById("demo");
-		output.innerHTML = steps[slider.value]; // Display the default slider value
-		
-		// Update the current slider value (each time you drag the slider handle)
-		slider.oninput = function() {
-		    output.innerHTML = steps[this.value];
-		
-			var value = steps[slider.value];
-			var year;
-			if(value == "1년 후"){
-	            year = 1;
-	            //alert(year);
-	            output.innerHTML += " 예상 집 값은000원 입니다.";
-	        } else if(value == "3년 후"){
-	        	year = 3;
-	        } else if(value == "5년 후"){
-	        	year = 5;
-	        } else {
-	        	year = 10;
-	        } 
-		
-		}
-		
-		</script>
+		<input id="pricePredict" type="button" value="예측">
+		<div class="message" style="width:50px; height:50px;"></div>
 	</div>
 </div>
 </body>
