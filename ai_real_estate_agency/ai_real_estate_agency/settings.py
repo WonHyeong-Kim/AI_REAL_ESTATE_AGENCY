@@ -82,8 +82,8 @@ DATABASES = {
         'NAME': 'estate',              # DB명 : db는 미리 작성되어 있어야 함.       
         'USER': 'root',                # 계정명 
         'PASSWORD': '123',             # 계정 암호           
-        'HOST': '127.0.0.1',           # DB가 설치된 컴의 ip          
-        'PORT': '4000',                # DBMS의 port 번호     
+        'HOST': '127.0.0.1',           # DB가 설치된 컴의 ip        
+		'PORT': '3306',
     }
 }
 

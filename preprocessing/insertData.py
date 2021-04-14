@@ -24,7 +24,7 @@ pymysql.install_as_MySQLdb()
 dataset = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/dataset.csv')
 
 try:
-    engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:4000/estate", encoding='utf-8')
+    engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:3306/estate", encoding='utf-8')
     conn = engine.connect()
     dataset.to_sql(name='train', con=conn, if_exists='replace', index=False)
 
