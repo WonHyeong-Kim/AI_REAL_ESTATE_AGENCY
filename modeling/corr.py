@@ -20,12 +20,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("train_park_daycare.csv")
+df = pd.read_csv("train_add_cctv.csv")
 pd.set_option('display.max_row', 500) # 컬럼 다 보기
 pd.set_option('display.max_columns', 100)
 print(df.head(3))
 print(df.describe())
-
+df['number_of_cctv'] = df['number of cctv']
+print(df.columns.unique())
 print('==================표준편차 뽑아보기===================')
 print(np.std(df.transaction_real_price)) # 33868.30
 
@@ -77,12 +78,12 @@ mpl.rcParams['agg.path.chunksize'] = 10000
 pd.set_option('display.max_columns', 500) #모든 열을 볼 수 있다
 
 
-df = pd.read_csv('train_park_daycare.csv')
+# df = pd.read_csv('train_park_daycare.csv')
 
-#print(df.head(3)) 데이터 확인
+print(df.head(3)) # 데이터 확인
 
 #등간척도 비율척도 변수만 추출
-df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate','transaction_real_price' ]] #피어슨 상관계수 쓰려고 
+df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate', 'number_of_cctv', 'transaction_real_price' ]] #피어슨 상관계수 쓰려고 
 
 
 cor1 = df1.corr() #안써주면 defalut pearson
@@ -90,7 +91,7 @@ cor1 = df1.corr() #안써주면 defalut pearson
 print(cor1)
 
 #시각화
-df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', square=True, cmap='Blues')
+df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', square=True, cmap='Oranges')
 plt.show()
 
 print(df.corr())
