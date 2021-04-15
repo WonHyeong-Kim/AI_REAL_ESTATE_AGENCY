@@ -44,9 +44,8 @@ body {
 
 .containers{
     position: relative;
-    /* width:1080px; */
+    width:1250px;
     min-width:1140px;
-    width:90%;
     margin:auto;
     height:800px;
     background:#fdfdfd;
@@ -145,7 +144,7 @@ body {
 
 /* 본문 */
 .contents {
-    width:82%;
+    width:1000px;
     float:right;
     margin-right: 30px;
     margin-left: 30px;

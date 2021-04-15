@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<HTML lang='KO'>
 <head>
 	<meta charset="UTF-8">
 	<title>AI 복덕방</title>
@@ -7,17 +7,7 @@
 	<!-- cross browsing 방지 -->
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	
-	<!-- css -->
-	<link href='/static/css/basic.css' rel='stylesheet'>
-	<style>
-		.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-		h2{color: #f79318;}
-	</style>
+
 	
 	<!-- table용 css -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +16,17 @@
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	
+
+	
+	<!-- java script -->
+	<script src='/static/js/jquery-1.12.4.min.js'></script>
+	<script src='/static/js/main.js'></script>
+	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+	<!-- api 불러오기 -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ede96e94d2d9a187882ea735ac4f1e84&libraries=services,clusterer,drawing"></script>
+	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
 	<!-- font -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	
@@ -35,18 +36,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	
-	<!-- java script -->
-	<script src='/static/js/jquery-1.12.4.min.js'></script>
-	<script src='/static/js/main.js'></script>
-	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
-	<!-- api 불러오기 -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ede96e94d2d9a187882ea735ac4f1e84&libraries=services,clusterer,drawing"></script>
+	<style>
+		.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		h2{color: #f79318;}
+		a{
+			color:black;
+		}
+		a:hover{
+		   	color:orange;
+		   	text-decoration: none;
+	    }
+	</style>
 </head>
 <body>
 <!-- 디자인용 -->
 <div class="containerBg"></div>
-<div class="container">
+<div class="containers">
 	{% block header %}
 		{% include "left.html"%}
 	{% endblock %}
@@ -79,7 +88,7 @@
 					</tr>
 			</table>
 			<br>
-			<button id="predict_btn" type="button">예측실행</button>
+			<button class="btn-warning btn-lg" id="predict_btn" type="button">예측실행</button>
 			<div id="predict_result"></div>
 	</div>
 	<script>
