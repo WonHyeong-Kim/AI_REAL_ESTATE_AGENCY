@@ -9,13 +9,10 @@ import numpy as np
 from predictapp.models import Dataset,News, Train
 from predictapp.models import Dataset, News, Gu, Train
 from tensorflow.keras.models import load_model
-<<<<<<< HEAD
 from datetime import datetime
-=======
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
 import statsmodels.api as sm
->>>>>>> origin/승헌_가격예측
 
 def MainFunc(request):
     '''
@@ -174,7 +171,17 @@ def InfoFunc(request):
         last_transaction_price_sum = 0
         last_transaction_area_sum = 0
         cont = 0
-        gu = 20
+        
+        # 구 이름 얻기
+        train_gu = train[0].gu
+        gu_dict = {'용산구': 0, '양천구': 1, '강동구': 2, '관악구': 3, '노원구': 4, '영등포구': 5, '마포구': 6, '서초구': 7, '성동구': 8, '금천구': 9, '도봉구': 10, '동작구': 11, '강서구': 12, '동대문구': 13, '강북구': 14, '서대문구': 15, '광진구': 16, '구로구': 17, '성북구': 18, '강남구': 19, '종로구': 20, '중구': 21, '중랑구': 22, '송파구': 23, '은평구': 24}
+        gu_name = {}
+        for k, v in gu_dict.items():
+            gu_name[v] = k
+        gu_name = gu_name[train_gu]
+        print(train_gu)
+        print(gu_name)
+        
         for t in train:
             parksum = t.park_area_sum  # 해당 구 공원면적
             bteacherrate = t.day_care_babyteacher_rate  # 해당 구 아기 대비 유치원교사 비율
@@ -204,7 +211,7 @@ def InfoFunc(request):
         gu_data = Gu.objects.get(gu_num=train[0].gu)
 
     return render(request, 'info.html', {'apartment_id': apt_id, 'gu_mean_price': format(gu_data.gu_mean_price, ".1f"), 'dataset': dataset,
-                                         'apt': apt, 'addr_kr': addr_kr, 'city': city, 'gu' : gu, 'area': area, 'area_pyeong': area_pyeong, 'transaction_year_month': transaction_year_month,
+                                         'apt': apt, 'addr_kr': addr_kr, 'city': city, 'gu_name':gu_name, 'gu' : train_gu, 'area': area, 'area_pyeong': area_pyeong, 'transaction_year_month': transaction_year_month,
                                          'floor': floor, 'parksum': parksum, 'bteacherrate': bteacherrate,
                                          'year_of_completion': year_of_completion,
                                          'maxdate_avgcost': round(maxdate_avgcost),
@@ -233,7 +240,6 @@ def ModelFunc(request):
 def LoadingFunc(request):
     return render(request, 'loading.html')
 
-<<<<<<< HEAD
 def FeaturePriceFunc(request):
     transaction_id              = 1
     apartment_id                = int(request.GET.get('apartment_id'))  
@@ -281,7 +287,6 @@ def FeaturePriceFunc(request):
     return HttpResponse(json.dumps(data), content_type = 'application/json')
 
 
-=======
 def predict_price(request):
     return render(request, 'predict_price.html')
 
@@ -363,6 +368,3 @@ def predict_modeling(request):
     #print(pred)
     
     return HttpResponse(json.dumps({"pred": pred}), content_type = 'application/json')
-    
-    
->>>>>>> origin/승헌_가격예측
