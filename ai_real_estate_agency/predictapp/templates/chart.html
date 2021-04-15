@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>AI 복덕방 - 차트</title>
 	
 	<!-- cross browsing 방지 -->
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
@@ -11,6 +11,13 @@
 	<!-- css -->
 	<link href='/static/css/basic.css' rel='stylesheet'>
 	<style>
+		a{
+			color:black;
+		}
+		a:hover{
+		   	color:orange;
+		   	text-decoration: none;
+	    }
 	</style>
 	
 	<!-- font -->
@@ -34,12 +41,12 @@
 <!-- 디자인용 -->
 <div class="containerBg"></div>
 <!-- 전체 -->
-<div class="container">
+<div class="containers" style="height:950px;">
 	{% block header %}
 		{% include "left.html"%}
 	{% endblock %}
 	<!-- 본문 -->
-	<div class="contents">
+	<div class="contents" style="margin: 40px 40px 40px 40px;">
 		<div class="row">
 			<div class="col-sm-2">
 				<div class="nav flex-column">

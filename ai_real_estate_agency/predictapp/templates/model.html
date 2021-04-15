@@ -2,15 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>AI 복덕방 - 모델 상세정보</title>
 	<!-- cross browsing 방지 -->
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	
-	<!-- css -->
-	<link href='/static/css/basic.css' rel='stylesheet'>
-	<style>
-	</style>
 	
 	<!-- font -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -24,12 +19,24 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  	
+  	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<style>
+		a{
+	      	color:black;
+	      }
+		a:hover{
+	      	color:orange;
+	      	text-decoration: none;
+      	}
+	</style>
 </head>
 <body>
 <!-- 디자인용 -->
 <div class="containerBg"></div>
 <!-- 전체 -->
-<div class="container" style="height:10000px;">
+<div class="containers" style="height:10000px;">
 	{% block header %}
 		{% include "left.html"%}
 	{% endblock %}

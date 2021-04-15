@@ -8,17 +8,6 @@
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	
-	<!-- css -->
-	<link href='/static/css/basic.css' rel='stylesheet'>
-	<style>
-		.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-		h2{color: #f79318;}
-	</style>
-	
 	<!-- table용 css -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -36,6 +25,17 @@
 	<!-- api 불러오기 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ede96e94d2d9a187882ea735ac4f1e84&libraries=services,clusterer,drawing"></script>
 	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<style>
+		.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		h2{color: #f79318;}
+	</style>
+	
 	<!-- 투자점수 그래픽 -->
 	<style>
       #g1 {
@@ -48,6 +48,13 @@
         width: 275px;
         margin: 2em auto;
         text-align: left;
+      }
+      a{
+      	color:black;
+      }
+      a:hover{
+      	color:orange;
+      	text-decoration: none;
       }
     </style>
     
@@ -80,8 +87,9 @@
 <body>
 <!-- 디자인용 -->
 <div class="containerBg"></div>
+
 <!-- 전체 -->
-<div class="container">
+<div class="containers" style="height:950px;">
 	{% block header %}
 		{% include "left.html"%}
 	{% endblock %}
@@ -89,50 +97,46 @@
 	<!-- 본문 -->
 	<div class="contents">
 		<!-- 사이트 소개 -->
- 		<h2 style="margin-top: 30px;">AI로 보는</h2>
-			<h2>아파트 미래 가격</h2>
-			<p></p>
-			<table class="table table-borderless">
-				<thead>
-					<tr>
-						<th style="width: 35%;">5년 후 미래 가격</th>
-						<th>진화하는 AI 모델</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>여러가지 변수를 학습한 리치고 AI가 예측하는 5년 후 아파트 미래 가격을 확인하세요.</td>
-						<td>AI 복덕방 팀은 아파트 가격에 영향을 주는 데이터를 지속적으로 발굴하고
-						 최신 기술의 머신러닝과 딥러닝 모델에 학습시키고 있습니다.</td>
-					</tr>
-				</tbody>
-			</table>
-			<!-- <span style="line-height:1300%; width:30px;"><br></span> -->
-			<h2>이 아파트,</h2>
-			<h2>지금 사도 괜찮을까?</h2>
-			<p></p>
-			<table class="table table-borderless" style="float: left;width: 68%;">
-				<thead>
-					<tr>
-						<th width="30%">투자 점수</th>
-						<th width="30%">거주 점수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>아파트 가격과 높은 상관성을 보이는 7가지 지표의 과거 흐름과 투자 점수를 바탕으로 리스크를 최대한
-							점검하세요.</td>
-						<td>다양한 거주 지표 기반으로 내 아파트 혹은 고민하시는 아파트가 얼마나 살기 좋은지 평가하세요.</td>
-					</tr>
-				</tbody>
-			</table>
-			<div id="g1" style="float: left;"></div>
-			<div>
-				<h2>뉴스피드</h2>
-				{% for i in news_datas%}
-					<a href={{i.news_link}} target="_blank" style="color: #605948">{{i.news_title}}</a><br>
-				{% endfor %}
-			</div>
+ 		<h2 style="margin-top: 50px;">AI로 보는</h2>
+		<h2>아파트 미래 가격</h2>
+		<p></p>
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+					<th style="width: 40%;">5년 후 미래 가격</th>
+					<th>진화하는 AI 모델</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>여러가지 변수를 학습한 리치고 AI가 예측하는 5년 후 아파트 미래 가격을 확인하세요.</td>
+					<td>AI 복덕방 팀은 아파트 가격에 영향을 주는 데이터를 지속적으로 발굴하고	최신 기술의 머신러닝과 딥러닝 모델에 학습시키고 있습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<h2 style="margin-top: 50px;">이 아파트,</h2>
+		<h2>지금 사도 괜찮을까?</h2>
+		<p></p>
+		<table class="table table-borderless">
+		<!-- <table class="table table-borderless" style="float: left;width: 68%;"> -->
+				<tr>
+					<th width="40%">투자 점수</th>
+					<th width="30%">거주 점수</th>
+					<th style="text-align:center;" rowspan="2" width="30%"><div style="margin: auto;" id="g1" style="float: left;"></div></th>
+				</tr>
+				<tr>
+					<td>아파트 가격과 높은 상관성을 보이는 7가지 지표의 과거 흐름과 투자 점수를 바탕으로 리스크를 최대한 점검하세요.</td>
+					<td>다양한 거주 지표 기반으로 내 아파트 혹은 고민하시는 아파트가 얼마나 살기 좋은지 평가하세요.</td>
+				</tr>
+		</table>
+		
+		<div>
+			<h2 style="margin-top: 50px;">뉴스피드</h2>
+			{% for i in news_datas%}
+				<a href={{i.news_link}} target="_blank" style="color: #605948">{{i.news_title}}</a><br>
+			{% endfor %}
+		</div>
 	</div>
 </div>
 </body>

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>AI 복덕방 - Loading</title>
 	<!-- cross browsing 방지 -->
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,32 +21,41 @@
 	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
 <style>
 	.loader {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 1;
-    width: 150px;
-    height: 150px;
-    margin: -75px 0 0 -75px;
-    border: 16px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 16px solid #3498db;
-    width: 120px;
-    height: 120px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
-}
-
-
-@-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    z-index: 1;
+	    width: 150px;
+	    height: 150px;
+	    margin: -75px 0 0 -75px;
+	    border: 16px solid #f3f3f3;
+	    border-radius: 50%;
+	    border-top: 16px solid #3498db;
+	    width: 120px;
+	    height: 120px;
+	    -webkit-animation: spin 2s linear infinite;
+	    animation: spin 2s linear infinite;
+	}
+	
+	
+	@-webkit-keyframes spin {
+	    0% { -webkit-transform: rotate(0deg); }
+	    100% { -webkit-transform: rotate(360deg); }
+	}
+	
+	@keyframes spin {
+	    0% { transform: rotate(0deg); }
+	    100% { transform: rotate(360deg); }
+	}
+	
+	a{
+		color:black;
+	}
+	a:hover{
+	   	color:orange;
+	   	text-decoration: none;
+    }
+      	
 </style>
 <script type="text/javascript">
 	var _showPage = function() {
@@ -68,7 +77,7 @@
 <!-- 디자인용 -->
 <div class="containerBg"></div>
 <!-- 전체 -->
-<div class="container">
+<div class="containers">
 	{% block header %}
 		{% include "left.html"%}
 	{% endblock %}
@@ -77,6 +86,7 @@
 	<div class="contents">
 		<div class="loader">
 		</div>
+			<h2 style="text-align: center; margin-top: 500px;">Loading...</h2>
 	
 		<div class="container" style="display:none;">
 		  <h1>로딩 후 화면</h1>

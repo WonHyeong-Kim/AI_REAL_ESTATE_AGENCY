@@ -26,7 +26,7 @@ urlpatterns = [
     path('predict/featurePrice', views.FeaturePriceFunc),
     path('predict/', views.PredictFunc),
     path('predict/info', views.InfoFunc),
-    path('model', views.ModelFunc),
+    path('model/', views.ModelFunc),
     path('chart/', views.ChartFunc),
     path('chart/gu_chart', views.GuChart),
     path('loading/', views.LoadingFunc),

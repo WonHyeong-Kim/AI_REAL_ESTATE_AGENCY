@@ -35,16 +35,18 @@ body {
     position:fixed;
     width:100%;
     height:500px;
+    min-width:1200px;
     left:0;
     top:0;
     border-radius: 0 100px 0px 100px;
     background:#F79318;
 }
 
-.container{
+.containers{
     position: relative;
     /* width:1080px; */
-    width:100%;
+    min-width:1140px;
+    width:90%;
     margin:auto;
     height:800px;
     background:#fdfdfd;
@@ -54,7 +56,7 @@ body {
 
 .fontcolor {
     color: #F79318;
-    font-size: 40px;
+    font-size: 35px;
     padding: 0 2px;
 }
 
@@ -80,7 +82,7 @@ body {
 }
 
 .logo a{
-    font-family: 'PT Sans';
+    /* font-family: 'PT Sans'; */
     font-size: 23px;
     line-height: 100px;
 }
@@ -145,6 +147,8 @@ body {
 .contents {
     width:82%;
     float:right;
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
 .search {
@@ -165,6 +169,8 @@ body {
 .area{
 	font-size: 15px;
 	margin:0 30px 10px 20px;
+	height:30px;
+	
 }
 
 .buildDate{
