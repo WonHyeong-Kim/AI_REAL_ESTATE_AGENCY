@@ -278,11 +278,11 @@
    						{% if dataset.paginator.num_pages > 1 %}  {# paginator.num_pages : 전체 페이지 수 #}
   	   				<div>
   	   				{% if dataset.has_previous %}
-  	   				  	<a href="/info?page={{dataset.previous_page_number}}&apartment_id={{apartment_id}}">&laquo;이전</a>
+  	   				  	<a href="info?page={{dataset.previous_page_number}}&apartment_id={{apartment_id}}">&laquo;이전</a>
   	   				{% endif %}
 
   	   				{% if dataset.has_next %}
-  	   					<a href="/info?page={{dataset.next_page_number}}&apartment_id={{apartment_id}}">다음&raquo;</a>
+  	   					<a href="info?page={{dataset.next_page_number}}&apartment_id={{apartment_id}}">다음&raquo;</a>
   	   				{% endif %}
   	   			&nbsp;&nbsp;
   	   				(페이지 : {{dataset.number}} / {{dataset.paginator.num_pages}})
