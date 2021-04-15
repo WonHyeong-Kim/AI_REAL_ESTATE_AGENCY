@@ -164,8 +164,9 @@
 		</div>
 		
 		<div class='cityName'>
-			{{city}} {{gu}}  {{addr_kr}}
+			{{city}} {{gu_name}}  {{addr_kr}}
 		</div>
+<<<<<<< HEAD
 		<hr style="width: 400px;">
 		<table class='area'>
 			<tr height="30px">
@@ -181,6 +182,43 @@
 				<td>&nbsp;&nbsp;:&nbsp;&nbsp;{{floor}}층</td>
 			</tr>
 		</table>
+=======
+		<hr>
+		<div class='area'>
+			<span class='column'>전용면적</span> : {{area}}m<sup>2</sup>({{area_pyeong}}평)
+		</div>
+		<div class='buildDate'>
+			<span class='column'>완공연도</span> : {{year_of_completion}}년
+		</div>
+		<div class='floor'>
+			<span class='column'>층&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</span> : {{floor}}층
+		</div>
+		<hr>
+
+		<div class='floor'>
+			<span class='column'> 공원면적(구 기준) </span> : {{parksum}}m<sup>2</sup>
+		</div>
+		<div class='floor'>
+			<span class='column'> 교사 1인당 담당 유치원생 비율(구 기준)</span>: {{bteacherrate}}명
+		</div>
+		<div class='floor'>
+			<span class='column'>CCTV 수(구 기준)</span>: {{gu_cctv}}개
+		</div>
+		<div class='floor'>
+			<span class='column'>평균 거래액(구 기준)</span>: {{ gu_mean_price }}만원
+		</div>
+		<div class='floor'>
+			<span class='column'>K-Remap 부동산 시장 활성화 지수(구 기준)</span>: {{ k_remap }}
+			{% if k_remap > 115 %}
+				(시장 활성화)
+			{% elif k_remap < 95 %}
+				(시장 수축)
+			{% else %}
+				(시장 안정)
+			{% endif %}
+		</div>
+		<hr>
+>>>>>>> origin/chu
 		
 		<hr style="width: 600px;">
 		
@@ -271,6 +309,7 @@
 		<input class="btn-warning btn-lg" id="pricePredict" type="button" value="예측">
 		<div class="message" style="width:50px; height:50px;"></div>
 	</div>
+	<h3></h3>
 </div>
 </body>
 </html>

@@ -176,6 +176,7 @@ def InfoFunc(request):
             area = float(t.exclusive_use_area)
             area_pyeong = np.floor(area / 3.305785 * 100) / 100  # 평수
             year_of_completion = t.year_of_completion  # 완공연도
+            k_remap = t.k_remap # 부동산 활성화 지수
             
             # CCTV 수
 
@@ -203,7 +204,8 @@ def InfoFunc(request):
                                          'year_of_completion': year_of_completion,
                                          'maxdate_avgcost': round(maxdate_avgcost),
                                          'avgcost_per_pyeong': format(avgcost_per_pyeong, ".1f"),
-                                         'gu_cctv': gu_data.gu_cctv})
+                                         'gu_cctv': gu_data.gu_cctv,
+                                         'k_remap' : k_remap})
 
 
 def ModelFunc(request):
