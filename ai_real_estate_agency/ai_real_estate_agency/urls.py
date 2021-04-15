@@ -26,6 +26,8 @@ urlpatterns = [
     path('info', views.InfoFunc),
     path('model', views.ModelFunc),
     path('chart/', views.ChartFunc),
+    path('predict_price/', views.predict_price),
+    path('predict_price/predict', views.predict_modeling),
     path('chart/gu_chart', views.GuChart),
     path('loading', views.LoadingFunc),
 ]
