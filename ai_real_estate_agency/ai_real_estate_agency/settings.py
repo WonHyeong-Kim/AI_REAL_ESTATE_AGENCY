@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'root',                # 계정명 
         'PASSWORD': '123',             # 계정 암호           
         'HOST': '127.0.0.1',           # DB가 설치된 컴의 ip          
-        'PORT': '3306',                # DBMS의 port 번호     
+        'PORT': '4406',                # DBMS의 port 번호     
     }
 }
 
