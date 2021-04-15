@@ -20,7 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("train_park_daycare.csv")
+df = pd.read_csv("../preprocessing/dataset/train_add_kremap.csv")
 pd.set_option('display.max_row', 500) # 컬럼 다 보기
 pd.set_option('display.max_columns', 100)
 print(df.head(3))
@@ -49,7 +49,7 @@ print(np.corrcoef(df.transaction_real_price, df.day_care_babyTeacher_rate)) # 0.
 # print('pearson : ',df.corr()) # 변수가 동간, 정규성따름
 #print('spearman : ', df.corr(method='spearman')) # 서열척도임. 정규성X
 #print('kendall : ',df.corr(method='kendall')) #
-
+'''
 plt.plot(df.transaction_real_price, df.exclusive_use_area, 'o')
 plt.show()
 plt.plot(df.transaction_real_price, df.park_area_sum, 'o')
@@ -66,6 +66,7 @@ df.plot(kind='scatter', x='exclusive_use_area', y='transaction_real_price')
 plt.show()
 df.plot(kind='scatter', x='day_care_babyTeacher_rate', y='transaction_real_price')
 plt.show()
+'''
 #---------------------------------------------------------------------------------------
 #feature label 상관분석
 import pandas as pd
@@ -77,12 +78,12 @@ mpl.rcParams['agg.path.chunksize'] = 10000
 pd.set_option('display.max_columns', 500) #모든 열을 볼 수 있다
 
 
-df = pd.read_csv('train_park_daycare.csv')
+df = pd.read_csv('../preprocessing/dataset/train_add_kremap.csv')
 
 #print(df.head(3)) 데이터 확인
 
 #등간척도 비율척도 변수만 추출
-df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate','transaction_real_price' ]] #피어슨 상관계수 쓰려고 
+df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate','cctv_num','k_remap','transaction_real_price' ]] #피어슨 상관계수 쓰려고 
 
 
 cor1 = df1.corr() #안써주면 defalut pearson
@@ -90,7 +91,8 @@ cor1 = df1.corr() #안써주면 defalut pearson
 print(cor1)
 
 #시각화
-df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', square=True, cmap='Blues')
+df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', 
+                          square=True, cmap='Oranges', annot_kws={"size": 5})
 plt.show()
 
 print(df.corr())

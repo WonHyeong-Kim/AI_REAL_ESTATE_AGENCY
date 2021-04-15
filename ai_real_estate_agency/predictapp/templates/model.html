@@ -128,9 +128,9 @@
 	   	<div>
 			<img style='width:700px;' src='/static/model/model3.png' alt ='model3'>
 	   	</div>
-	   	<h4>② hitmap</h4>
+	   	<h4>② heatmap</h4>
 	   	<div>
-			<img src='/static/model/hitmap.png' alt ='hitmap'>
+			<img src='/static/model/heatmap.png' alt ='heatmap'>
 	   	</div><br>
 		<br>
 		<div class='text'>exclusive_use_area, CCTV ,day_care_babyTeacher_rate, park_area_sum 순으로 상관관계가 있다고할 수 있다.</div><br>
@@ -160,7 +160,7 @@
 	   	
 	   	<h4>② 정규성 - 변수와 잔차는 정규분포를 따라야함</h4>
 	   	<div>
-			<img src='/static/model/정규성.png' alt ='hitmap'>
+			<img src='/static/model/정규성.png' alt ='정규성'>
 	   	</div>
 	   	<div class='text'>결과 : 시각화된 이미지를 봤을 때, 정규성을 만족한다고 볼 수 있다. 하지만 p-value 값은 1.60e-21이므로 0.05보다 작아 정규성을 만족하지 못한다고 볼 수 있다. 
 이는 왼쪽 하단과 오른쪽 상단의 이상치 때문인 것으로 추측한다.</div><br>
@@ -173,7 +173,7 @@
 	   		Durbin-Watson:1.631로 자기상관이 없다고 판단<br>
 	   	<h4>④ 등분산성 - 오차의 분산이 같아야 함. 일정한 분산을 가진 정규분포를 가진다고 가정</h4>
 	   	<div>
-			<img src='/static/model/등분산성.png' alt ='hitmap'>
+			<img src='/static/model/등분산성.png' alt ='등분산성'>
 	   	</div>
 	   	<div class='text'>추세선이 수평선을 그리지않으므로 등분산성을 만족하지 못한다. 잔차의 분산이 일정하지 못하다.</div><br>
 	   	

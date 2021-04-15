@@ -170,6 +170,16 @@
 		<div class='floor'>
 			<span class='column'>평균 거래액(구 기준)</span>: {{ gu_mean_price }}만원
 		</div>
+		<div class='floor'>
+			<span class='column'>K-Remap 부동산 시장 활성화 지수(구 기준)</span>: {{ k_remap }}
+			{% if k_remap > 115 %}
+				(시장 활성화)
+			{% elif k_remap < 95 %}
+				(시장 수축)
+			{% else %}
+				(시장 안정)
+			{% endif %}
+		</div>
 		<hr>
 		
 		<div class='floor'>
@@ -231,6 +241,7 @@
 		<input id="pricePredict" type="button" value="예측">
 		<div class="message" style="width:50px; height:50px;"></div>
 	</div>
+	<h3></h3>
 </div>
 </body>
 </html>
