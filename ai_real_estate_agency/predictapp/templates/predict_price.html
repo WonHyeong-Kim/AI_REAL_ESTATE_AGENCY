@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AI 복덕방</title>
+	
+	<!-- cross browsing 방지 -->
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.8'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<!-- css -->
+	<link href='/static/css/basic.css' rel='stylesheet'>
+	<style>
+		.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		h2{color: #f79318;}
+	</style>
+	
+	<!-- table용 css -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+	<!-- font -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	
+	<!--bootstrap  -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+	<!-- java script -->
+	<script src='/static/js/jquery-1.12.4.min.js'></script>
+	<script src='/static/js/main.js'></script>
+	<script src='/static/js/prefixfree.dynamic-dom.js'></script>
+	<!-- api 불러오기 -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ede96e94d2d9a187882ea735ac4f1e84&libraries=services,clusterer,drawing"></script>
+</head>
+<body>
+<!-- 디자인용 -->
+<div class="containerBg"></div>
+<div class="container">
+	{% block header %}
+		{% include "left.html"%}
+	{% endblock %}
+	
+	<!-- 본문 -->
+	<div class="contents">
+	<br>
+	<h2>거래가격 예측해보기</h2>
+	<hr>
+			<table class="table table-bordered">
+					<tr>
+						<td>구 이름</td>
+						<td><input type="text" id="gu_name" placeholder="구를 입력하세요."></td>
+					</tr>
+					<tr>
+						<td>전용 면적</td>
+						<td><input type="text" id="ex_area" placeholder="전용 면적을 입력하세요."></td>
+					</tr>
+					<tr>
+						<td>아파트 건립년도</td>
+						<td><input type="text" id="year_complition" placeholder="아파트 건립년도를 입력하세요."></td>
+					</tr>
+					<tr>
+						<td>거래년월</td>
+						<td><input type="text" id="trans_year_month" placeholder="거래년월을 입력하세요."></td>
+					</tr>
+					<tr>
+						<td>층 수</td>
+						<td><input type="text" id="floor" placeholder="층 수를 입력하세요."></td>
+					</tr>
+			</table>
+			<br>
+			<button id="predict_btn" type="button">예측실행</button>
+			<div id="predict_result"></div>
+	</div>
+	<script>
+		$(document).ready(function(){
+			$("#predict_btn").click(function(){
+				$("#predict_result").html("<h3>데이터를 로드하는 중입니다...</h3>");
+				let gu_name = $("#gu_name").val();
+				let ex_area = $("#ex_area").val();
+				let year_complition = $("#year_complition").val();
+				let trans_year_month = $("#trans_year_month").val();
+				let trans_date = $("#trans_date").val();
+				let floor = $("#floor").val();
+				
+				$.ajax({
+					url: "/predict_price/predict",
+					type: "get",
+					data: {"gu_name": gu_name,
+							"ex_area" : ex_area,
+							"year_complition" : year_complition,
+							"trans_year_month" : trans_year_month,
+							"trans_date" : trans_date,
+							"floor" : floor},
+					datatype:"json",
+					success: function(data){
+						$("#predict_result").empty();
+						let pred = Number(data['pred']).toLocaleString()
+						$("#predict_result").html("<h3>예상가격은 " + pred + "원 입니다.</h3>")
+					},
+					error: function(){
+						$("#predict_result").text("데이터에 오류가 있습니다. 죄송합니다.");
+					}
+					
+				})
+			})
+		})
+	</script>
+</div>
+</body>
+</html>
