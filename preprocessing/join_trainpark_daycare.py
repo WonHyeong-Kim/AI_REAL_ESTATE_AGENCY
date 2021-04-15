@@ -2,7 +2,10 @@ import pandas as pd
 
 # train dataset, babycenter dataset
 # /Users/jk/Downloads/baby_canter.csv
+#train_data = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/pretreatment/dataset/train_park.csv')
 train_data = pd.read_csv('./dataset/train_park.csv')
+
+#dayCare_data = pd.read_csv('https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/pretreatment/dataset/baby_center.csv')
 dayCare_data = pd.read_csv('./dataset/baby_center.csv')
 gu_num_dict = {'용산구': 0, '양천구': 1, '강동구': 2, '관악구': 3, '노원구': 4, '영등포구': 5, '마포구': 6, '서초구': 7, '성동구': 8, '금천구': 9, '도봉구': 10, '동작구': 11, '강서구': 12, '동대문구': 13, '강북구': 14, '서대문구': 15, '광진구': 16, '구로구': 17, '성북구': 18, '강남구': 19, '종로구': 20, '중구': 21, '중랑구': 22, '송파구': 23, '은평구': 24}
 # print(len(gu_num_dict))

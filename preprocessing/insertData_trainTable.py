@@ -28,7 +28,7 @@ dataset_train = pd.read_csv('./dataset/train_add_kremap.csv')
 dataset = pd.read_csv('./dataset_pre/train.csv')
 
 try:
-    engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:4406/estate", encoding='utf-8')
+    engine = create_engine("mysql+mysqldb://root:123@127.0.0.1:3306/estate", encoding='utf-8')
     conn = engine.connect()
     dataset_train.to_sql(name='train', con=conn, if_exists='replace', index=False)
     print('dataset_train end')
@@ -36,5 +36,5 @@ try:
 
 except Exception as e:
     print('err : ', e)
-
+print('end')
 

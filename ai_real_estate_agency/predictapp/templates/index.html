@@ -134,7 +134,7 @@
 		<div>
 			<h2 style="margin-top: 50px;">뉴스피드</h2>
 			{% for i in news_datas%}
-				<a href={{i.news_link}} target="_blank" style="color: #605948">{{i.news_title}}</a><br>
+				<a onmouseover="this.style.color='orange';" onmouseout="this.style.color='#605948';" href={{i.news_link}} target="_blank" style="color: #605948">{{i.news_title}}</a><br>
 			{% endfor %}
 		</div>
 	</div>

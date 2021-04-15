@@ -95,13 +95,14 @@
 			let park_area_sum = "{{ parksum }}";
 			let day_care_babyTeacher_rate = "{{ bteacherrate }}";
 			let cctv_num = "{{ gu_cctv }}";
+			let k_remap = "{{ k_remap }}";
 			
 			$(".message").text("예측중");
 			$.ajax({
 				url:"/predict/featurePrice",
 				type:"get",
 				//data:{"year":year},
-				data:{"year":year, "apartment_id":apartment_id, "gu":gu, "exclusive_use_area":exclusive_use_area, "year_of_completion":year_of_completion, "floor":floor, "park_area_sum":park_area_sum, "day_care_babyTeacher_rate":day_care_babyTeacher_rate, "cctv_num":cctv_num},
+				data:{"year":year, "apartment_id":apartment_id, "gu":gu, "exclusive_use_area":exclusive_use_area, "year_of_completion":year_of_completion, "floor":floor, "park_area_sum":park_area_sum, "day_care_babyTeacher_rate":day_care_babyTeacher_rate, "cctv_num":cctv_num, "k_remap":k_remap},
 				datatype:'json',
 				success:function(data){
 					$(".message").empty();

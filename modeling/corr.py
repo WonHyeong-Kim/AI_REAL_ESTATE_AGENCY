@@ -20,11 +20,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-<<<<<<< HEAD
 df = pd.read_csv("train_add_cctv.csv")
-=======
 df = pd.read_csv("../preprocessing/dataset/train_add_kremap.csv")
->>>>>>> origin/chu
 pd.set_option('display.max_row', 500) # 컬럼 다 보기
 pd.set_option('display.max_columns', 100)
 print(df.head(3))

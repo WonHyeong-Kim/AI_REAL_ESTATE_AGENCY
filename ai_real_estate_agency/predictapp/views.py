@@ -179,8 +179,8 @@ def InfoFunc(request):
         for k, v in gu_dict.items():
             gu_name[v] = k
         gu_name = gu_name[train_gu]
-        print(train_gu)
-        print(gu_name)
+        #print(train_gu)
+        #print(gu_name)
         
         for t in train:
             parksum = t.park_area_sum  # 해당 구 공원면적
@@ -252,8 +252,9 @@ def FeaturePriceFunc(request):
     park_area_sum               = float(request.GET.get('park_area_sum'))
     day_care_babyTeacher_rate   = float(request.GET.get('day_care_babyTeacher_rate'))
     cctv_num                    = int(request.GET.get('cctv_num'))
-    #print(transaction_year_month, apartment_id, gu, exclusive_use_area, year_of_completion)
-    #print(floor, park_area_sum, day_care_babyTeacher_rate, cctv_num)
+    k_remap                    = float(request.GET.get('k_remap'))
+    print(transaction_year_month, apartment_id, gu, exclusive_use_area, year_of_completion)
+    print(floor, park_area_sum, day_care_babyTeacher_rate, cctv_num, k_remap)
     
     transaction_year_month = datetime.today().year * 100 + transaction_year_month * 100 + 1 # 미래 년도 산출
     #print(transaction_year_month)
@@ -263,6 +264,7 @@ def FeaturePriceFunc(request):
     path = os.getcwd()
     model = load_model(path+'/ai_real_estate_agency/predictapp/static/model/tensormodel.h5')
     #print(model.summary())
+    #print(model.info())
     #print(type(transaction_id), type(apartment_id), type(gu), type(exclusive_use_area), type(year_of_completion), type(transaction_year_month))
     #print(type(floor), type(park_area_sum), type(day_care_babyTeacher_rate), type(cctv_num))
 # 0   transaction_id             742285 non-null  int64  
@@ -278,7 +280,7 @@ def FeaturePriceFunc(request):
 # 10  transaction_real_price     742285 non-null  int64  
 # 11  cctv_num                   742285 non-null  int64 
 
-    new_x = [[transaction_id, apartment_id, gu, exclusive_use_area, year_of_completion, transaction_year_month, transaction_date, floor, park_area_sum, day_care_babyTeacher_rate, cctv_num]]
+    new_x = [[apartment_id, gu, exclusive_use_area, year_of_completion, transaction_year_month, transaction_date, floor, park_area_sum, day_care_babyTeacher_rate, cctv_num, k_remap]]
     print(new_x)
     featurePrice = model.predict(new_x) # 가격 예측
     print(featurePrice)
