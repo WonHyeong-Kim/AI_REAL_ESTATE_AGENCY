@@ -147,7 +147,6 @@
 		<div class='text'>'day_care_babyTeacher_rate' 변수는 0.05로 그리 강하진 않지만, 양의 상관관계를 갖고 있다고 볼 수 있다.</div><br>
 		<h4>park_area_sum 상관계수</h4>
 		<div class='text'>'park_area_sum' 변수는 약 -0.14로 상관관계가 거의 없다고 봐도 무방하다.</div><br>
-<<<<<<< HEAD
 	   	<h2>4. ols를 이용한 Multiple Linear Regression</h2>
          <div class='text'>model 식 :<br>
           <pre>
@@ -178,8 +177,6 @@ k_remap                :       -0.0167<br>
        <br>
 
        </div><br>
-=======
-	   	
 	   	<h3>4. ols를 이용한 Mutivariable Linear Regression</h3>
 	   	<div class='text'>model 식 :<br>
 	   	 <pre>- 73.25806 X gu	+ 815.7119 X exclusive_use_area	- 560.3373 X year_of_completion	+ 12.19228 X transaction_year_month	
@@ -192,7 +189,6 @@ k_remap                :       -0.0167<br>
 		이때 사용한 독립변수들은 모든 변수들을 사용하였으며, 선형회귀분석에서의 중요한 가정을 위배하는 지 확인해보도록 하겠다.<br>
 		 
 		 </div><br>
->>>>>>> origin/moon
 	   	<h4>① 선형성 -잔차가 정규성을 만족하는 지 판단</h4>
 	   	<div>
 			<img src='/static/model/선형성.png' alt ='선형성'>
@@ -256,8 +252,6 @@ k_remap                :       -0.0167<br>
 			다중선형회귀분석에서 만약 독립변수가 범주형이라면, 더미변수로 바꿔서 사용하면 된다. <br>
 			현 데이터셋에는 범주형변수가 있지만, 더미변수 처리로 인하여 모두 사용할 수 있게 만들었다.<br> 
 		</div><br>
-<<<<<<< HEAD
-
 	    <h2>5. Mutivariable RandomForestRegressor (랜덤포레스트 회귀분석모델)</h2>
 
      <div class='text'>
@@ -334,7 +328,6 @@ k_remap                :       -0.0167<br>
 			변수를 여러개를 조정한 결과 최종적으로 loss는 0.199 결정계수는 84.25% 가 나왔다.
 			이를 통해 tensor를 활용한 해당 모델은 변수에 대해 84.25%의 설명력을 가지고 있다는 것을 알 수 있었다.
 		</div>
-=======
 	   	
 	  <h3>5. Mutivariable RandomForestRegressor (랜덤포레스트 회귀분석모델)</h2>
 	  
@@ -366,12 +359,9 @@ k_remap                :       -0.0167<br>
 			<img src='/static/model/randomregfinal.PNG' alt ='rf'>
 	   	</div>
 	   	상관계수가 가장 높은 exclusive_use_area변수를 RandomForest를 통해 예측한 산포도 그래프
->>>>>>> origin/moon
 	   	<div>
 			<img src='/static/images/tensormodel.png' alt ='model5'>
 	   	</div>
-
-
 	</div>
 </div>
 </body>
