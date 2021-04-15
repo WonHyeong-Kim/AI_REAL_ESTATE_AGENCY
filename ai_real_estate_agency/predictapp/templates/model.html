@@ -223,7 +223,7 @@
 			현 데이터셋에는 범주형변수가 있지만, 더미변수 처리로 인하여 모두 사용할 수 있게 만들었다.<br> 
 		</div><br>
 	   	
-	  <h3>5. RandomForestRegressor (랜덤포레스트)</h2>
+	  <h2>5. RandomForestRegressor (랜덤포레스트)</h2>
 	  <div class='text'>
          사용 이유 : Decision Tree가 아닌 RandomForest를 사용한 이유는 overfitting 방지를 할 수 있음으로 사용.<br> 
          임의의 데이터를 중복을 허용하여 선택함으로써 각각의 트리를 형성.<br>
@@ -231,6 +231,53 @@
      </div><br>
 	   	<div>
 			<img src='/static/model/model5.png' alt ='model5'>
+	   	</div><br>
+
+		<h2>6. Tensorflow (텐서플로우) 모델 분석</h2>
+	  <div class='text'>
+         사용 이유 : 딥러닝 모델을 활용하여 여러 레이어에서 데이터를 학습하여 높은 성능을 기대. <br>
+         <br>
+         설명력(R<sup>2</sup>) : 83.82%
+     </div><br>
+		<h4>데이터 변수 분석</h4>
+		<div class='text'>
+			gu, exclusive_use_area, year_of_completion, transaction_year_month, <br>
+			transaction_date, floor, park_area_sum, day_care_babyTeacher_rate, cctv_num, k_remap <br>
+			총 10가지의 변수를 바탕으로 분석을 해보았다.
+		</div><br>
+		<h4>표준화 진행</h4>
+		<div class='text'>
+			표준화 작업을 통해 train data의 loss값을 현저히 줄여서 0.22대로 낮추었다.
+		</div><br>
+		<h4>딥러닝 Layer 분석</h4><br>
+		<h4>Activation 함수 - linear, relu </h4>
+		<div class='text'>
+		다중 회귀 분석을 하였기때문에 활성함수 같은 경우에는 linear를 사용하였다. <br>
+			하지만 모두 linear를 쓰지 않고 중간 레이어에 relu를 추가하였더니 모델의 성능이 더 좋게 나왔다.
+		</div>
+		<h4>Layer 수 조정 - 4</h4>
+		<div class='text'>
+			Dense Layer를 7(0.01), 3(0.54), 4(0.84)로 나누어 실험해본 결과 4개의 Layer가 가장 설명력이 높게 나온 것으로 확인되었다.
+		</div>
+		<h4>learning_rate 조정 - 0.0001</h4>
+		<div class='text'>
+			optimizer의 learning rate를 0.1, 0.01, 0.001, 0.0001로 조정해서 값을 확인한 결과 0.0001일때 더 높은 설명력이 나온 것으로 확인되었다.
+		</div>
+		<h4>validation 조정 - 0.3</h4>
+		<div class='text'>
+			validation_split 을 0.3으로 조정하여 과적합을 방지하고, 모델의 성능을 높였다.
+		</div>
+		<h4>epoch 조정 - 100</h4>
+		<div class='text'>
+			epoch를 100, 500, 2000으로 조정하여 값을 확인해본 결과 100번이 돌기 전에 모두 조기학습종료(EarlyStopping)를 하였다.
+		</div><br>
+		<h4>결과분석</h4>
+		<div class='text'>
+			변수를 여러개를 조정한 결과 최종적으로 loss는 0.199 결정계수는 84.25% 가 나왔다.
+			이를 통해 tensor를 활용한 해당 모델은 변수에 대해 84.25%의 설명력을 가지고 있다는 것을 알 수 있었다.
+		</div>
+	   	<div>
+			<img src='/static/model/tensormodel.png' alt ='model5'>
 	   	</div>
 	</div>
 </div>
