@@ -16,22 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from predictapp import views
+
+from predictapp.views import views2, views1
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.MainFunc),
+    path('', views1.MainFunc),
 #     path('info', views.InfoFunc),
 #     path('predict/', include('predictapp.urls')),
-    path('predict/featurePrice', views.FeaturePriceFunc),
-    path('predict/', views.PredictFunc),
-    path('predict/info', views.InfoFunc),
-    path('model/', views.ModelFunc),
-    path('chart/', views.ChartFunc),
-    path('predict_price/', views.predict_price),
-    path('predict_price/predict', views.predict_modeling),
-    path('chart/gu_chart', views.GuChart),
-    path('loading/', views.LoadingFunc),
+    path('predict/featurePrice', views2.FeaturePriceFunc),
+    path('predict/', views2.PredictFunc),
+    path('predict/info', views1.InfoFunc),
+    path('model/', views1.ModelFunc),
+    path('chart/', views1.ChartFunc),
+    path('predict_price/', views2.predict_price),
+    path('predict_price/predict', views2.predict_modeling),
+    path('chart/gu_chart', views1.GuChart),
+    path('loading/', views1.LoadingFunc),
 ]
 # cd C:\work\psou\ai_real_estate_agency
 # python manage.py createsuperuser
