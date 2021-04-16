@@ -80,20 +80,14 @@ mpl.rcParams['agg.path.chunksize'] = 10000
 pd.set_option('display.max_columns', 500) #모든 열을 볼 수 있다
 
 
-<<<<<<< HEAD
 # df = pd.read_csv('train_park_daycare.csv')
-=======
 df = pd.read_csv('../preprocessing/dataset/train_add_kremap.csv')
->>>>>>> origin/chu
 
 print(df.head(3)) # 데이터 확인
 
 #등간척도 비율척도 변수만 추출
-<<<<<<< HEAD
-df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate', 'number_of_cctv', 'transaction_real_price' ]] #피어슨 상관계수 쓰려고 
-=======
+#df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate', 'number_of_cctv', 'transaction_real_price' ]] #피어슨 상관계수 쓰려고 
 df1 = df[['exclusive_use_area','park_area_sum','day_care_babyTeacher_rate','cctv_num','k_remap','transaction_real_price' ]] #피어슨 상관계수 쓰려고 
->>>>>>> origin/chu
 
 
 cor1 = df1.corr() #안써주면 defalut pearson
@@ -101,12 +95,9 @@ cor1 = df1.corr() #안써주면 defalut pearson
 print(cor1)
 
 #시각화
-<<<<<<< HEAD
-df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', square=True, cmap='Oranges')
-=======
+#df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', square=True, cmap='Oranges')
 df1_heatmap = sns.heatmap(cor1, cbar=True, annot=True, fmt='.3f', 
                           square=True, cmap='Oranges', annot_kws={"size": 5})
->>>>>>> origin/chu
 plt.show()
 
 print(df.corr())

@@ -68,23 +68,55 @@
 			<table class="table table-bordered">
 					<tr>
 						<td>구 이름</td>
-						<td><input type="text" id="gu_name" placeholder="구를 입력하세요."></td>
+						<td>
+							<select id="gu_name"  class="form-control" placeholder="구를 입력하세요.">
+						    	<option value="0">용산구</option>
+						        <option value="1">양천구</option>
+						        <option value="2">강동구</option>
+						        <option value="3">관악구</option>
+						        <option value="4">노원구</option>
+						        <option value="5">영등포구</option>
+						        <option value="6">마포구</option>
+						        <option value="7">서초구</option>
+						        <option value="8">성동구</option>
+						        <option value="9">금천구</option>
+						        <option value="10">도봉구</option>
+						        <option value="11">동작구</option>
+						        <option value="12">강서구</option>
+						        <option value="13">동대문구</option>
+						        <option value="14">강북구</option>
+						        <option value="15">서대문구</option>
+						        <option value="16">광진구</option>
+						        <option value="17">구로구</option>
+						        <option value="18">성북구</option>
+						        <option value="19">강남구</option>
+						        <option value="20">종로구</option>
+						        <option value="21">중구</option>
+						        <option value="22">중랑구</option>
+						        <option value="23">송파구</option>
+						        <option value="24">은평구</option>
+						    </select>
+						</td>
 					</tr>
 					<tr>
 						<td>전용 면적</td>
-						<td><input type="text" id="ex_area" placeholder="전용 면적을 입력하세요."></td>
+						<td><input type="text" class="form-control" id="ex_area" placeholder="전용 면적을 입력하세요.(㎡)"></td>
 					</tr>
 					<tr>
 						<td>아파트 건립년도</td>
-						<td><input type="text" id="year_complition" placeholder="아파트 건립년도를 입력하세요."></td>
+						<td>
+							<!-- <input type="text" id="year_complition" placeholder="아파트 건립년도를 입력하세요."> -->
+							<select id="year_complition"  class="form-control" placeholder="아파트 건립년도를 입력하세요.">
+						    </select>
+						</td>
 					</tr>
 					<tr>
 						<td>거래년월</td>
-						<td><input type="text" id="trans_year_month" placeholder="거래년월을 입력하세요."></td>
+						<td><input type="text" class="form-control" id="trans_year_month" placeholder="거래년월을 입력하세요."></td>
 					</tr>
 					<tr>
 						<td>층 수</td>
-						<td><input type="text" id="floor" placeholder="층 수를 입력하세요."></td>
+						<td><input type="text" class="form-control" id="floor" placeholder="층 수를 입력하세요."></td>
 					</tr>
 			</table>
 			<br>
@@ -121,9 +153,18 @@
 						$("#predict_result").text("데이터에 오류가 있습니다. 죄송합니다.");
 					}
 					
-				})
-			})
-		})
+				});
+			});
+			let strYear="";
+			var now = new Date();	// 현재 날짜 및 시간
+			var year = now.getFullYear();	// 연도
+			
+			for(var i=1961; i<=year; i++){
+				strYear += "<option value='"+i+"'>"+i+"년</option>";
+			}
+			console.log(strYear);
+			document.getElementById("year_complition").innerHTML = strYear;
+		});
 	</script>
 </div>
 </body>
