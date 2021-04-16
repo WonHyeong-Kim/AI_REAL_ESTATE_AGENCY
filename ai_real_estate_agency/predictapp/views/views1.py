@@ -28,7 +28,7 @@ def ChartFunc(request):
 
 def GuChart(request):
     # 데이터 로드
-    dataset = pd.read_csv('../../../preprocessing/dataset/train_add_cctv.csv')
+    dataset = pd.read_csv('../preprocessing/dataset/train_add_cctv.csv')
     response = {}
     # 숫자로 매핑되어 있는 구 정보를 다시 구 이름으로 변환
     gu = {'용산구': 0, '양천구': 1, '강동구': 2, '관악구': 3, '노원구': 4, '영등포구': 5, '마포구': 6, '서초구': 7, '성동구': 8, '금천구': 9,

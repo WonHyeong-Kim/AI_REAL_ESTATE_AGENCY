@@ -53,6 +53,7 @@ def FeaturePriceFunc(request):
     path = os.getcwd()
     # model = load_model(path + '/ai_real_estate_agency/predictapp/static/model/tensormodel.h5')
     model = load_model('/Users/jk/git/acornTeam1_project2/ai_real_estate_agency/predictapp/static/model/tensormodel.h5')
+
     # print(model.summary())
     # print(model.info())
     # print(type(transaction_id), type(apartment_id), type(gu), type(exclusive_use_area), type(year_of_completion), type(transaction_year_month))
@@ -103,7 +104,7 @@ def predict_modeling(request):
 
     # 구에 해당하는 공원면적, 교육지수,cctv개수, kremap(평균)가져오기
     # dataset = pd.read_csv(path + "/ai_real_estate_agency/predictapp/static/dataset/train_add_kremap.csv")
-    dataset = pd.read_csv("../../../preprocessing/dataset/train_add_kremap.csv")
+    dataset = pd.read_csv("../preprocessing/dataset/train_add_kremap.csv")
     # dataset = pd.read_csv("https://raw.githubusercontent.com/WonHyeong-Kim/AI_REAL_ESTATE_AGENCY/main/preprocessing/dataset/train_add_kremap.csv")
     gu_data = dataset.loc[dataset['gu'] == gu]
     park_area_sum = float(gu_data.groupby('gu')['park_area_sum'].mean().values[0])
@@ -139,7 +140,11 @@ def predict_modeling(request):
     # print(new_df.info())
     import pickle
     # from sklearn.externals import joblib
+
     model = pickle.load(open(r'/Users/jk/git/acornTeam1_project2/ai_real_estate_agency/predictapp/static/model/ols.h5', 'rb'))
+    # model = pickle.load(open(r'C:\work\psou\ai_real_estate_agency\predictapp\static\model\ols.h5', 'rb'))
+
+
     # model = joblib.load(path + '/ai_real_estate_agency/predictapp/static/model/olsmodel.pkl')
     # model = load_model(r'C:\work\psou\ai_real_estate_agency\predictapp\static\model\olsmodel.h5')
     # model = load_model(path + '/ai_real_estate_agency/predictapp/static/model/olsmodel.hdf5')
